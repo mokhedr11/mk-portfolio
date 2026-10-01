@@ -1,0 +1,3170 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="description" content="Mohamed Ahmed Khedr — Computer Engineer & Full-Stack Developer." />
+  <meta name="theme-color" content="#f5f4ef" id="themeColorMeta" />
+  <meta property="og:title" content="Mohamed Ahmed Khedr — Computer Engineer & Full-Stack Developer" />
+  <meta property="og:description" content="Computer Engineer & Full-Stack Developer building clean, responsive and practical web experiences." />
+  <meta property="og:type" content="website" />
+  <title>Mohamed Ahmed Khedr — Computer Engineer & Full-Stack Developer</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+
+  <!-- Lucide Icons Library -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Prevent theme flash -->
+  <script>
+    (function(){
+      var t = localStorage.getItem('mk-theme');
+      if(!t){ t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+
+  <style>
+    /* =========================================================
+       THEME VARIABLES
+    ========================================================= */
+    :root {
+      --blue: #315fd8;
+      --blue-soft: #4d76df;
+      --blue-deep: #284fbd;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+      --ease-soft: cubic-bezier(0.16, 1, 0.3, 1);
+      --radius: 20px;
+      --container: 1240px;
+    }
+
+    /* LIGHT THEME (default) */
+    [data-theme="light"] {
+      --bg:           #f5f4ef;
+      --bg-deep:      #ebe9e1;
+      --bg-card:      #f5f4ef;
+      --surface:      #0d0d0d;
+      --surface-soft: #141414;
+      --text:         #111111;
+      --muted:        #6b6b65;
+      --muted-dark:   #4e4e49;
+      --line:         rgba(13,13,13,0.13);
+      --line-inv:     rgba(245,244,239,0.13);
+      --cream:        #f5f4ef;
+      --black:        #0d0d0d;
+      --black-soft:   #141414;
+    }
+
+    /* DARK THEME */
+    [data-theme="dark"] {
+      --bg:           #111111;
+      --bg-deep:      #0d0d0d;
+      --bg-card:      #191919;
+      --surface:      #f0efe9;
+      --surface-soft: #e8e7e1;
+      --text:         #f2f2ef;
+      --muted:        #9e9e96;
+      --muted-dark:   #b8b8b0;
+      --line:         rgba(245,244,239,0.11);
+      --line-inv:     rgba(13,13,13,0.2);
+      --cream:        #ededea;
+      --black:        #1a1a1a;
+      --black-soft:   #222222;
+    }
+
+    /* =========================================================
+       RESET & BASE TYPOGRAPHY
+    ========================================================= */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--bg);
+    }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      overflow-x: clip;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    body.menu-open { overflow: hidden; }
+
+    html[lang="ar"] body {
+      font-family: "IBM Plex Sans Arabic", -apple-system, BlinkMacSystemFont, "SF Arabic", "Helvetica Neue", Arial, sans-serif;
+    }
+
+    button, input, textarea, select { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    a { color: inherit; text-decoration: none; }
+    button { border: 0; background: none; padding: 0; cursor: pointer; }
+    img, svg { display: block; max-width: 100%; }
+    ::selection { background: var(--blue); color: white; }
+
+    /* Lucide icons standard base rules */
+    .lucide, [data-lucide] {
+      width: 1em;
+      height: 1em;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      vertical-align: middle;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
+    /* =========================================================
+       PRELOADER
+    ========================================================= */
+    .preloader {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0d0d0d;
+      transition: opacity 0.5s var(--ease), visibility 0.5s;
+    }
+    .preloader.hide { opacity: 0; visibility: hidden; pointer-events: none; }
+    .preloader-inner { display: flex; flex-direction: column; align-items: center; gap: 18px; }
+    .preloader-mark {
+      position: relative;
+      width: 68px;
+      height: 68px;
+      display: grid;
+      place-items: center;
+    }
+    .preloader-mark-text {
+      position: relative;
+      z-index: 2;
+      color: #f5f4ef;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.07em;
+      opacity: 0;
+      transform: scale(0.88);
+      animation: preloaderTextIn 0.45s var(--ease) 0.08s forwards;
+    }
+    @keyframes preloaderTextIn { to { opacity: 1; transform: scale(1); } }
+    .preloader-ring {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 1.5px solid rgba(245,244,239,0.1);
+    }
+    .preloader-ring::before {
+      content: "";
+      position: absolute;
+      inset: -1.5px;
+      border-radius: inherit;
+      border: 1.5px solid transparent;
+      border-top-color: var(--blue);
+      animation: preloaderSpin 0.85s linear infinite;
+    }
+    @keyframes preloaderSpin { to { transform: rotate(360deg); } }
+    .preloader-bar-wrap {
+      width: 72px;
+      height: 2px;
+      background: rgba(245,244,239,0.08);
+      border-radius: 2px;
+      overflow: hidden;
+      opacity: 0;
+      animation: preloaderBarFadeIn 0.25s ease 0.2s forwards;
+    }
+    @keyframes preloaderBarFadeIn { to { opacity: 1; } }
+    .preloader-bar {
+      height: 100%;
+      width: 0%;
+      background: var(--blue);
+      border-radius: 2px;
+      animation: preloaderBarFill 0.5s var(--ease) 0.25s forwards;
+    }
+    @keyframes preloaderBarFill { to { width: 100%; } }
+
+    /* =========================================================
+       GLOBAL LAYOUT
+    ========================================================= */
+    .page { position: relative; }
+    .container {
+      width: min(calc(100% - 48px), var(--container));
+      margin-inline: auto;
+    }
+    .section { position: relative; padding-block: 135px; }
+    .section-index {
+      margin-bottom: 34px;
+      color: var(--blue);
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+    html[lang="ar"] .section-index { letter-spacing: 0; }
+    .section-heading {
+      margin: 0;
+      max-width: 920px;
+      font-size: clamp(44px, 6.8vw, 102px);
+      line-height: 0.95;
+      letter-spacing: -0.065em;
+      font-weight: 600;
+    }
+    html[lang="ar"] .section-heading { line-height: 1.1; letter-spacing: -0.04em; }
+    .section-intro {
+      max-width: 580px;
+      margin: 32px 0 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.82;
+    }
+    html[lang="ar"] .section-intro { line-height: 1.95; }
+    .blue { color: var(--blue); }
+
+    /* =========================================================
+       SCROLL PROGRESS
+    ========================================================= */
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      inset-inline-start: 0;
+      width: 0;
+      height: 2px;
+      z-index: 500;
+      background: var(--blue);
+    }
+
+    /* =========================================================
+       HEADER & NAVIGATION
+    ========================================================= */
+    header {
+      position: fixed;
+      top: 18px;
+      left: 0;
+      right: 0;
+      z-index: 400;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+    }
+    header.visible { opacity: 1; transform: translateY(0); }
+
+    .header-inner {
+      width: min(calc(100% - 32px), 1200px);
+      min-height: 64px;
+      margin-inline: auto;
+      padding: 7px 10px 7px 16px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      background: rgba(245,244,239,0.92);
+      border: 1px solid rgba(13,13,13,0.1);
+      border-radius: 100px;
+      box-shadow: 0 12px 40px rgba(13,13,13,0.07);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+    [data-theme="dark"] .header-inner {
+      background: rgba(22,22,22,0.92);
+      border-color: rgba(245,244,239,0.09);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+    }
+    html[lang="ar"] .header-inner { padding: 7px 16px 7px 10px; }
+
+    .brand { flex-shrink: 0; display: flex; align-items: center; gap: 11px; min-width: 0; }
+    .brand-mark {
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(13,13,13,0.25);
+      border-radius: 50%;
+      font-size: 13.5px;
+      font-weight: 700;
+      letter-spacing: -0.08em;
+      transition: transform 0.45s var(--ease), border-color 0.3s ease;
+      color: var(--text);
+    }
+    [data-theme="dark"] .brand-mark { border-color: rgba(245,244,239,0.22); }
+    .brand:hover .brand-mark { border-color: var(--blue); transform: rotate(8deg); }
+
+    .brand-copy { display: grid; gap: 1px; min-width: 0; }
+    .brand-name {
+      font-size: 13.5px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: var(--text);
+    }
+    .brand-role {
+      color: var(--muted);
+      font-size: 9.5px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    html[lang="ar"] .brand-role { letter-spacing: 0; }
+
+    .nav { margin-inline: auto; display: flex; align-items: center; gap: 4px; flex-wrap: nowrap; }
+    .nav-link {
+      padding: 8px 12px;
+      color: var(--muted);
+      font-size: 12.5px;
+      font-weight: 600;
+      white-space: nowrap;
+      transition: color 0.22s ease, background 0.22s ease;
+      border-radius: 100px;
+    }
+    .nav-link:hover, .nav-link.active { color: var(--text); background: rgba(13,13,13,0.05); }
+    [data-theme="dark"] .nav-link:hover,
+    [data-theme="dark"] .nav-link.active { background: rgba(245,244,239,0.08); }
+
+    .header-actions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+
+    .header-btn {
+      height: 38px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(13,13,13,0.12);
+      border-radius: 100px;
+      color: var(--muted);
+      cursor: pointer;
+      transition: color 0.22s ease, background 0.22s ease, border-color 0.22s ease, transform 0.25s var(--ease);
+      background: none;
+      flex-shrink: 0;
+    }
+    [data-theme="dark"] .header-btn { border-color: rgba(245,244,239,0.12); }
+    .header-btn:hover {
+      color: var(--text);
+      background: rgba(13,13,13,0.05);
+      border-color: rgba(13,13,13,0.22);
+      transform: translateY(-1px);
+    }
+    [data-theme="dark"] .header-btn:hover {
+      background: rgba(245,244,239,0.08);
+      border-color: rgba(245,244,239,0.2);
+    }
+    .theme-toggle { width: 38px; }
+    .theme-toggle svg, .theme-toggle .lucide { width: 16px; height: 16px; }
+    .language-switch { min-width: 42px; padding-inline: 11px; font-size: 10.5px; font-weight: 700; }
+
+    .mobile-menu-button {
+      display: none;
+      width: 40px;
+      height: 40px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      border: 1px solid rgba(13,13,13,0.13);
+      border-radius: 50%;
+      cursor: pointer;
+      transition: border-color 0.25s ease;
+      background: none;
+      flex-shrink: 0;
+    }
+    [data-theme="dark"] .mobile-menu-button { border-color: rgba(245,244,239,0.12); }
+    .mobile-menu-button:hover { border-color: var(--blue); }
+    .mobile-menu-button span {
+      width: 15px;
+      height: 1.5px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      display: block;
+    }
+
+    /* Mobile Drawer */
+    .mobile-nav {
+      position: fixed;
+      inset: 0;
+      z-index: 350;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      padding: 96px 28px 36px;
+      gap: 4px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: opacity 0.38s var(--ease), visibility 0.38s, transform 0.38s var(--ease);
+      overflow-y: auto;
+    }
+    .mobile-nav.open { opacity: 1; visibility: visible; transform: translateY(0); }
+    .mobile-nav-link {
+      padding: 16px 0;
+      font-size: clamp(26px, 6.5vw, 44px);
+      font-weight: 600;
+      letter-spacing: -0.04em;
+      color: var(--text);
+      border-bottom: 1px solid var(--line);
+      transition: color 0.2s ease, padding-inline-start 0.28s var(--ease);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .mobile-nav-link:hover { color: var(--blue); padding-inline-start: 8px; }
+    .mobile-nav-link-num { color: var(--muted); font-size: 11.5px; font-weight: 700; }
+    html[lang="ar"] .mobile-nav-link { letter-spacing: -0.02em; }
+
+    /* =========================================================
+       HERO
+    ========================================================= */
+    .hero {
+      min-height: 100svh;
+      display: flex;
+      align-items: center;
+      padding-top: 140px;
+      padding-bottom: 80px;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+      gap: 56px;
+      align-items: center;
+    }
+    .hero-content { min-width: 0; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 28px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+    html[lang="ar"] .eyebrow { letter-spacing: 0; }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      flex-shrink: 0;
+      background: var(--blue);
+      border-radius: 50%;
+      position: relative;
+    }
+    .status-dot::after {
+      content: "";
+      position: absolute;
+      inset: -3px;
+      border-radius: 50%;
+      background: rgba(49,95,216,0.22);
+      animation: statusPulse 2.2s ease-in-out infinite;
+    }
+    @keyframes statusPulse {
+      0%,100% { transform: scale(1); opacity: 0.6; }
+      50% { transform: scale(1.7); opacity: 0; }
+    }
+
+    .hero-title {
+      margin: 0;
+      font-size: clamp(56px, 8.8vw, 130px);
+      line-height: 0.88;
+      letter-spacing: -0.075em;
+      font-weight: 600;
+    }
+    .hero-title span { display: block; }
+    .hero-title .accent { color: var(--blue); }
+    html[lang="ar"] .hero-title {
+      font-size: clamp(48px, 7.8vw, 110px);
+      line-height: 1.05;
+      letter-spacing: -0.05em;
+    }
+
+    .hero-description {
+      max-width: 520px;
+      margin: 36px 0 0;
+      color: var(--muted-dark);
+      font-size: 16.5px;
+      line-height: 1.8;
+    }
+    html[lang="ar"] .hero-description { line-height: 2.05; }
+
+    .hero-actions {
+      margin-top: 32px;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .button-primary, .button-secondary {
+      min-height: 50px;
+      padding-inline: 24px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 600;
+      white-space: nowrap;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  background 0.28s ease,
+                  color 0.28s ease,
+                  border-color 0.28s ease,
+                  box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: transform, box-shadow;
+    }
+    .button-primary {
+      color: white;
+      background: var(--text);
+      border: 1px solid transparent;
+    }
+    .button-secondary {
+      color: var(--text);
+      border: 1px solid var(--line);
+      background: transparent;
+    }
+    .button-primary:hover {
+      transform: translateY(-3px);
+      background: var(--blue);
+      border-color: rgba(77, 118, 223, 0.4);
+      box-shadow: 0 12px 28px -4px rgba(49, 95, 216, 0.42), 0 4px 12px rgba(49, 95, 216, 0.2);
+    }
+    .button-secondary:hover {
+      transform: translateY(-3px);
+      border-color: var(--blue);
+      color: var(--blue);
+      box-shadow: 0 8px 24px -4px rgba(49, 95, 216, 0.15);
+    }
+    .button-arrow {
+      display: inline-flex;
+      align-items: center;
+      font-size: 14px;
+      transition: transform 0.28s var(--ease);
+    }
+    .button-arrow .lucide, .button-arrow svg {
+      width: 15px;
+      height: 15px;
+    }
+    .button-primary:hover .button-arrow,
+    .button-secondary:hover .button-arrow { transform: translateX(3px); }
+    html[dir="rtl"] .button-arrow .lucide,
+    html[dir="rtl"] .button-arrow svg { transform: rotate(180deg); }
+    html[dir="rtl"] .button-primary:hover .button-arrow,
+    html[dir="rtl"] .button-secondary:hover .button-arrow { transform: translateX(-3px); }
+
+    /* Hero Photo Frame */
+    .hero-photo-area {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero-photo-frame {
+      position: relative;
+      width: 100%;
+      max-width: 460px;
+      aspect-ratio: 3 / 4;
+      border-radius: 26px;
+      overflow: hidden;
+      background: var(--black-soft);
+      border: 1px solid rgba(13,13,13,0.12);
+    }
+    [data-theme="dark"] .hero-photo-frame { border-color: rgba(245,244,239,0.09); }
+    .hero-photo-frame::before {
+      content: "";
+      position: absolute;
+      inset: 16px;
+      border: 1px solid rgba(245,244,239,0.07);
+      border-radius: 16px;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .hero-photo-frame::after {
+      content: "";
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 44%;
+      background: linear-gradient(to top, rgba(13,13,13,0.78) 0%, transparent 100%);
+      z-index: 3;
+      pointer-events: none;
+    }
+    .hero-photo-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      z-index: 1;
+    }
+    .hero-photo-placeholder-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(245,244,239,0.18);
+      display: grid;
+      place-items: center;
+      color: rgba(245,244,239,0.32);
+    }
+    .hero-photo-placeholder-icon svg,
+    .hero-photo-placeholder-icon .lucide { width: 26px; height: 26px; }
+    .hero-photo-placeholder-text {
+      color: rgba(245,244,239,0.3);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-align: center;
+    }
+    .hero-photo-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 1;
+    }
+    .hero-photo-badge {
+      position: absolute;
+      bottom: 24px;
+      inset-inline-start: 24px;
+      z-index: 5;
+      padding: 12px 16px;
+      background: rgba(10,10,10,0.74);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(245,244,239,0.1);
+      border-radius: 14px;
+    }
+    .hero-photo-badge-name { color: #f0efe9; font-size: 13px; font-weight: 600; letter-spacing: -0.02em; }
+    .hero-photo-badge-role {
+      color: var(--blue-soft);
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      margin-top: 3px;
+    }
+    html[lang="ar"] .hero-photo-badge-role { letter-spacing: 0; }
+    .hero-photo-dots {
+      position: absolute;
+      top: -16px;
+      inset-inline-end: -16px;
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 6px;
+      z-index: 0;
+    }
+    .hero-photo-dots span {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: rgba(13,13,13,0.15);
+      display: block;
+    }
+    [data-theme="dark"] .hero-photo-dots span { background: rgba(245,244,239,0.15); }
+    .hero-photo-line {
+      position: absolute;
+      bottom: -22px;
+      inset-inline-start: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--blue), transparent);
+      opacity: 0.35;
+    }
+    html[dir="rtl"] .hero-photo-line { background: linear-gradient(to left, transparent, var(--blue), transparent); }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      animation: heroScrollBounce 2.2s ease-in-out infinite;
+    }
+    @keyframes heroScrollBounce {
+      0%,100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(5px); }
+    }
+    html[lang="ar"] .hero-scroll { letter-spacing: 0; }
+    .hero-scroll-line { width: 38px; height: 1px; background: var(--line); }
+
+    /* Hero Stagger */
+    .hero-stagger { opacity: 0; transform: translateY(18px); }
+    .hero-stagger.animate { animation: heroStaggerIn 0.75s var(--ease) forwards; }
+    @keyframes heroStaggerIn { to { opacity: 1; transform: translateY(0); } }
+
+    /* =========================================================
+       ABOUT
+    ========================================================= */
+    .about { border-top: 1px solid var(--line); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: minmax(0,1.2fr) minmax(280px,0.8fr);
+      gap: 80px;
+      align-items: start;
+    }
+    .about-copy { padding-top: 12px; }
+    .about-lead {
+      margin: 0;
+      max-width: 750px;
+      font-size: clamp(28px, 4vw, 50px);
+      line-height: 1.15;
+      letter-spacing: -0.045em;
+    }
+    html[lang="ar"] .about-lead { line-height: 1.48; letter-spacing: -0.035em; }
+    .about-lead strong { font-weight: 600; }
+    .about-body {
+      max-width: 620px;
+      margin: 32px 0 0;
+      color: var(--muted);
+      font-size: 15.5px;
+      line-height: 1.88;
+    }
+    html[lang="ar"] .about-body { line-height: 2.05; }
+
+    /* Profile Card */
+    .profile-card {
+      position: relative;
+      padding: 28px;
+      background: var(--black);
+      color: #ededea;
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: background 0.3s ease;
+    }
+    [data-theme="dark"] .profile-card {
+      background: #1e1e1e;
+      border: 1px solid rgba(245,244,239,0.09);
+    }
+    .profile-card::before {
+      content: "";
+      position: absolute;
+      width: 180px; height: 180px;
+      right: -75px; top: -75px;
+      border: 1px solid rgba(77,118,223,0.35);
+      border-radius: 50%;
+    }
+    .profile-card::after {
+      content: "";
+      position: absolute;
+      width: 260px; height: 260px;
+      right: -120px; top: -120px;
+      border: 1px solid rgba(77,118,223,0.15);
+      border-radius: 50%;
+    }
+    html[dir="rtl"] .profile-card::before { right: auto; left: -75px; }
+    html[dir="rtl"] .profile-card::after { right: auto; left: -120px; }
+    .profile-label {
+      position: relative; z-index: 1;
+      color: #888;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.16em; text-transform: uppercase;
+    }
+    html[lang="ar"] .profile-label { letter-spacing: 0; }
+    .profile-year { position: relative; z-index: 1; margin-top: 70px; color: var(--blue-soft); font-size: 13px; font-weight: 700; }
+    .profile-name { position: relative; z-index: 1; margin: 7px 0 0; font-size: 26px; line-height: 1.1; letter-spacing: -0.04em; }
+    .profile-role { position: relative; z-index: 1; margin: 6px 0 0; color: #888; font-size: 13px; }
+    .profile-meta {
+      position: relative; z-index: 1;
+      margin-top: 60px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-top: 1px solid rgba(245,244,239,0.12);
+    }
+    .profile-meta-item { padding-top: 15px; }
+    .profile-meta-item + .profile-meta-item { padding-inline-start: 18px; border-inline-start: 1px solid rgba(245,244,239,0.12); }
+    .profile-meta-label { color: #666; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+    html[lang="ar"] .profile-meta-label { letter-spacing: 0; }
+    .profile-meta-value { margin-top: 5px; color: #ededea; font-size: 13.5px; }
+
+    /* =========================================================
+       STACK
+    ========================================================= */
+    .stack { background: var(--black); color: #ededea; transition: background 0.3s ease; }
+    [data-theme="dark"] .stack { background: #0d0d0d; }
+    .stack .section-index { color: var(--blue-soft); }
+    .stack .section-intro { color: #909090; }
+    .stack-heading { max-width: 850px; }
+    .stack-list { margin-top: 75px; border-top: 1px solid rgba(245,244,239,0.1); }
+    .stack-item {
+      position: relative;
+      min-height: 102px;
+      display: grid;
+      grid-template-columns: 64px 58px minmax(140px,0.75fr) minmax(0,1.25fr) 28px;
+      align-items: center;
+      gap: 18px;
+      border-bottom: 1px solid rgba(245,244,239,0.1);
+      transition: padding 0.42s var(--ease), background 0.36s ease;
+    }
+    .stack-item:hover { padding-inline: 14px; background: rgba(255,255,255,0.022); }
+    .stack-number { color: #585858; font-size: 11px; font-weight: 700; }
+    .stack-icon {
+      width: 44px; height: 44px;
+      display: grid; place-items: center;
+      font-size: 26px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.035);
+      transition: transform 0.42s var(--ease), background 0.28s ease;
+    }
+    .stack-item:hover .stack-icon { transform: scale(1.08); background: rgba(255,255,255,0.065); }
+    .stack-name { font-size: 20px; font-weight: 600; letter-spacing: -0.035em; color: #ededea; }
+    .stack-description { color: #787878; font-size: 13.5px; line-height: 1.68; }
+    .stack-arrow {
+      color: #606060;
+      font-size: 15px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.28s ease, transform 0.32s var(--ease);
+    }
+    .stack-arrow svg { width: 16px; height: 16px; }
+    .stack-item:hover .stack-arrow { color: var(--blue-soft); transform: translateX(4px); }
+    html[dir="rtl"] .stack-arrow svg { transform: rotate(180deg); }
+    html[dir="rtl"] .stack-item:hover .stack-arrow { transform: translateX(-4px); }
+
+    /* Tool Grid */
+    .tool-grid {
+      margin-top: 56px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      gap: 12px;
+    }
+    .tool-card {
+      min-height: 142px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: #141414;
+      border: 1px solid rgba(245,244,239,0.08);
+      border-radius: 16px;
+      transition: transform 0.42s var(--ease), border-color 0.28s ease, background 0.28s ease;
+    }
+    [data-theme="dark"] .tool-card { background: #161616; }
+    .tool-card:hover { transform: translateY(-5px); background: #191919; border-color: rgba(77,118,223,0.38); }
+    .tool-top { display: flex; justify-content: space-between; align-items: flex-start; }
+    .tool-icon { font-size: 28px; transition: transform 0.38s var(--ease); display: block; }
+    .tool-card:hover .tool-icon { transform: scale(1.1); }
+    .tool-index { color: #525252; font-size: 10px; font-weight: 700; }
+    .tool-name { margin-top: 22px; font-size: 14px; font-weight: 600; color: #ededea; }
+    .tool-category { margin-top: 3px; color: #626262; font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
+    html[lang="ar"] .tool-category { letter-spacing: 0; }
+
+    /* =========================================================
+       SERVICES
+    ========================================================= */
+    .services { border-bottom: 1px solid var(--line); }
+    .services-grid {
+      margin-top: 70px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 14px;
+    }
+    .service-card {
+      position: relative;
+      padding: 30px;
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                  border-color 0.3s ease;
+      will-change: transform, box-shadow;
+    }
+    .service-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 40px -8px rgba(49, 95, 216, 0.14), 0 8px 20px -4px rgba(13, 13, 13, 0.06);
+      border-color: rgba(49, 95, 216, 0.35);
+    }
+    [data-theme="dark"] .service-card:hover {
+      box-shadow: 0 16px 40px -8px rgba(49, 95, 216, 0.22), 0 8px 20px -4px rgba(0, 0, 0, 0.4);
+      border-color: rgba(77, 118, 223, 0.42);
+    }
+    .service-card::before {
+      content: "";
+      position: absolute;
+      bottom: 0; right: 0;
+      width: 110px; height: 110px;
+      background: radial-gradient(circle at 100% 100%, rgba(49,95,216,0.05), transparent 70%);
+      pointer-events: none;
+    }
+    html[dir="rtl"] .service-card::before { right: auto; left: 0; }
+    .service-card-icon {
+      width: 48px; height: 48px;
+      display: grid; place-items: center;
+      background: rgba(49,95,216,0.07);
+      border: 1px solid rgba(49,95,216,0.15);
+      border-radius: 13px;
+      color: var(--blue);
+      transition: transform 0.38s var(--ease), background 0.28s ease;
+    }
+    .service-card-icon svg,
+    .service-card-icon .lucide { width: 22px; height: 22px; }
+    .service-card:hover .service-card-icon { transform: scale(1.08); background: rgba(49,95,216,0.13); }
+    .service-card-num {
+      position: absolute;
+      top: 30px;
+      inset-inline-end: 30px;
+      color: rgba(13,13,13,0.08);
+      font-size: 34px;
+      font-weight: 700;
+      letter-spacing: -0.05em;
+      line-height: 1;
+      transition: color 0.28s ease;
+    }
+    [data-theme="dark"] .service-card-num { color: rgba(245,244,239,0.07); }
+    .service-card:hover .service-card-num { color: rgba(49,95,216,0.12); }
+    .service-card-name { margin: 20px 0 0; font-size: 18.5px; font-weight: 600; letter-spacing: -0.03em; }
+    .service-card-description { margin: 9px 0 0; color: var(--muted); font-size: 13.5px; line-height: 1.78; }
+    html[lang="ar"] .service-card-description { line-height: 1.96; }
+    .service-card-tags { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 6px; }
+    .service-tag {
+      padding: 4px 9px;
+      color: var(--blue);
+      background: rgba(49,95,216,0.07);
+      border-radius: 100px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    /* =========================================================
+       PROJECTS
+    ========================================================= */
+    .projects { background: var(--bg); border-top: 1px solid var(--line); }
+    .projects-grid {
+      margin-top: 70px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 16px;
+    }
+    .project-card {
+      position: relative;
+      padding: 26px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      transition: transform 0.48s cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 0.48s cubic-bezier(0.16, 1, 0.3, 1),
+                  border-color 0.3s ease;
+      will-change: transform, box-shadow;
+    }
+    .project-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 48px -10px rgba(49, 95, 216, 0.14), 0 10px 24px -5px rgba(13, 13, 13, 0.08);
+      border-color: rgba(49, 95, 216, 0.35);
+    }
+    [data-theme="dark"] .project-card:hover {
+      box-shadow: 0 20px 48px -10px rgba(49, 95, 216, 0.25), 0 10px 24px -5px rgba(0, 0, 0, 0.45);
+      border-color: rgba(77, 118, 223, 0.42);
+    }
+    .project-visual {
+      position: relative;
+      min-height: 260px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: var(--black);
+      border-radius: 15px;
+    }
+    [data-theme="dark"] .project-visual { background: #0f0f0f; }
+   .project-visual-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center; /* تثبيت أعلى الموقع */
+  z-index: 1;
+  transition: transform 0.75s var(--ease);
+}
+    .project-card:hover .project-visual-img { transform: scale(1.04); }
+    .project-visual-placeholder {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 11px; z-index: 1;
+    }
+    .project-visual-ring {
+      position: absolute;
+      width: 220px; height: 220px;
+      border: 1px solid rgba(77,118,223,0.28);
+      border-radius: 50%;
+      transition: transform 0.75s var(--ease);
+    }
+    .project-card:hover .project-visual-ring { transform: scale(1.15); }
+    .project-visual::before {
+      content: "";
+      position: absolute; inset: 16px;
+      border: 1px solid rgba(245,244,239,0.07);
+      border-radius: 11px;
+      z-index: 2; pointer-events: none;
+    }
+    .project-logo {
+      position: relative; z-index: 3;
+      width: 86px; height: 86px;
+      display: grid; place-items: center;
+      border: 1px solid rgba(245,244,239,0.22);
+      border-radius: 50%;
+      color: #ededea;
+      font-size: 20px; font-weight: 700;
+      letter-spacing: -0.07em;
+    }
+    .project-placeholder-label {
+      position: relative; z-index: 3;
+      color: rgba(245,244,239,0.3);
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    .project-info { padding-top: 24px; }
+    .project-type { color: var(--blue); font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+    html[lang="ar"] .project-type { letter-spacing: 0; }
+    .project-title { margin: 7px 0 0; font-size: 25px; line-height: 1.08; letter-spacing: -0.045em; }
+    .project-description { max-width: 480px; margin: 11px 0 0; color: var(--muted); font-size: 13.5px; line-height: 1.75; }
+    html[lang="ar"] .project-description { line-height: 1.92; }
+    .project-footer {
+      margin-top: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .project-tag {
+      padding: 5px 9px;
+      color: var(--muted-dark);
+      border: 1px solid var(--line);
+      border-radius: 100px;
+      font-size: 10.5px; font-weight: 600;
+    }
+    .project-actions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+    .project-link {
+      width: 38px; height: 38px;
+      display: grid; place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      transition: color 0.28s ease, background 0.28s ease, border-color 0.28s ease, transform 0.28s var(--ease);
+    }
+    .project-link svg,
+    .project-link .lucide { width: 15px; height: 15px; }
+    .project-link:hover { color: white; background: var(--blue); border-color: var(--blue); transform: scale(1.1); }
+
+    /* =========================================================
+       ACADEMIC TRACK & COURSEWORK (#education)
+    ========================================================= */
+    .education { background: var(--bg-deep); border-top: 1px solid var(--line); }
+
+    .academic-wrapper {
+      margin-top: 60px;
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+      max-width: 960px;
+    }
+
+    /* Redesigned Compact Academic Track Card */
+    .academic-card {
+      position: relative;
+      padding: 22px 28px;
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                  border-color 0.3s ease;
+      will-change: transform, box-shadow;
+    }
+    .academic-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 36px -8px rgba(49, 95, 216, 0.12), 0 6px 16px -2px rgba(13, 13, 13, 0.05);
+      border-color: rgba(49, 95, 216, 0.3);
+    }
+    [data-theme="dark"] .academic-card:hover {
+      box-shadow: 0 16px 36px -8px rgba(49, 95, 216, 0.22), 0 6px 16px -2px rgba(0, 0, 0, 0.35);
+      border-color: rgba(77, 118, 223, 0.38);
+    }
+    .academic-card-left {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      min-width: 0;
+    }
+    .academic-icon-box {
+      width: 48px;
+      height: 48px;
+      flex-shrink: 0;
+      border-radius: 14px;
+      background: rgba(49, 95, 216, 0.08);
+      border: 1px solid rgba(49, 95, 216, 0.16);
+      display: grid;
+      place-items: center;
+      color: var(--blue);
+      transition: transform 0.35s var(--ease), background 0.28s ease;
+    }
+    .academic-card:hover .academic-icon-box {
+      transform: scale(1.06);
+      background: rgba(49, 95, 216, 0.14);
+    }
+    .academic-icon-box svg { width: 22px; height: 22px; }
+    .academic-details { min-width: 0; }
+    .academic-badge-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 5px;
+    }
+    .academic-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 9px;
+      border-radius: 100px;
+      background: rgba(49, 95, 216, 0.08);
+      border: 1px solid rgba(49, 95, 216, 0.15);
+      color: var(--blue);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    html[lang="ar"] .academic-status-pill { letter-spacing: 0; }
+    .academic-status-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--blue);
+    }
+    .academic-period {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .academic-uni {
+      margin: 0;
+      font-size: 19px;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      line-height: 1.25;
+    }
+    .academic-degree {
+      margin: 4px 0 0;
+      color: var(--muted-dark);
+      font-size: 14px;
+      line-height: 1.4;
+    }
+    .academic-card-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+      flex-shrink: 0;
+      border-inline-start: 1px solid var(--line);
+      padding-inline-start: 24px;
+    }
+    .academic-tag-label {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    html[lang="ar"] .academic-tag-label { letter-spacing: 0; }
+    .academic-tag-value {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* Reusable Course Cards */
+    .courses-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .courses-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .courses-title {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+    }
+    .courses-subtitle {
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .courses-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .course-card {
+      position: relative;
+      padding: 22px 24px;
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                  border-color 0.3s ease;
+      will-change: transform, box-shadow;
+    }
+    .course-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 16px 36px -8px rgba(49, 95, 216, 0.12), 0 6px 16px -2px rgba(13, 13, 13, 0.05);
+      border-color: rgba(49, 95, 216, 0.32);
+    }
+    [data-theme="dark"] .course-card:hover {
+      box-shadow: 0 16px 36px -8px rgba(49, 95, 216, 0.22), 0 6px 16px -2px rgba(0, 0, 0, 0.4);
+      border-color: rgba(77, 118, 223, 0.4);
+    }
+    .course-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .course-icon-wrap {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: rgba(49, 95, 216, 0.07);
+      border: 1px solid rgba(49, 95, 216, 0.14);
+      color: var(--blue);
+      transition: transform 0.35s var(--ease), background 0.28s ease;
+    }
+    .course-card:hover .course-icon-wrap {
+      transform: scale(1.08);
+      background: rgba(49, 95, 216, 0.13);
+    }
+    .course-icon-wrap svg { width: 19px; height: 19px; }
+    .course-status {
+      padding: 3px 9px;
+      border-radius: 100px;
+      background: rgba(13, 13, 13, 0.05);
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    [data-theme="dark"] .course-status { background: rgba(245, 244, 239, 0.07); }
+    html[lang="ar"] .course-status { letter-spacing: 0; }
+    .course-status.completed {
+      background: rgba(49, 95, 216, 0.08);
+      color: var(--blue);
+      border: 1px solid rgba(49, 95, 216, 0.15);
+    }
+    .course-name {
+      margin: 0;
+      font-size: 16.5px;
+      font-weight: 600;
+      letter-spacing: -0.025em;
+      line-height: 1.32;
+    }
+    .course-desc {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 13.5px;
+      line-height: 1.68;
+    }
+    html[lang="ar"] .course-desc { line-height: 1.88; }
+
+    /* =========================================================
+       CERTIFICATES
+    ========================================================= */
+    .certificates { background: var(--bg-deep); border-top: 1px solid var(--line); }
+    .certs-grid {
+      margin-top: 70px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 14px;
+    }
+    .cert-card {
+      position: relative;
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                  border-color 0.3s ease;
+      will-change: transform, box-shadow;
+    }
+    .cert-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 18px 44px -8px rgba(49, 95, 216, 0.13), 0 8px 20px -4px rgba(13, 13, 13, 0.06);
+      border-color: rgba(49, 95, 216, 0.32);
+    }
+    [data-theme="dark"] .cert-card:hover {
+      box-shadow: 0 18px 44px -8px rgba(49, 95, 216, 0.22), 0 8px 20px -4px rgba(0, 0, 0, 0.4);
+      border-color: rgba(77, 118, 223, 0.4);
+    }
+    .cert-visual {
+      position: relative;
+      aspect-ratio: 16 / 10;
+      background: var(--black-soft);
+      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    [data-theme="dark"] .cert-visual { background: #111; }
+    .cert-visual-img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      position: absolute; inset: 0;
+      transition: transform 0.58s var(--ease);
+    }
+    .cert-card:hover .cert-visual-img { transform: scale(1.04); }
+    .cert-visual-placeholder {
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 10px; padding: 22px;
+      position: relative; z-index: 1;
+    }
+    .cert-visual-placeholder-icon {
+      width: 50px; height: 50px;
+      border-radius: 50%;
+      border: 1px solid rgba(245,244,239,0.16);
+      display: grid; place-items: center;
+      color: rgba(245,244,239,0.32);
+    }
+    .cert-visual-placeholder-icon svg,
+    .cert-visual-placeholder-icon .lucide { width: 22px; height: 22px; }
+    .cert-visual-accent {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(to right, transparent, var(--blue), transparent);
+      opacity: 0;
+      transition: opacity 0.28s ease;
+    }
+    html[dir="rtl"] .cert-visual-accent { background: linear-gradient(to left, transparent, var(--blue), transparent); }
+    .cert-card:hover .cert-visual-accent { opacity: 1; }
+    .cert-body { padding: 20px; }
+    .cert-org { color: var(--blue); font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+    html[lang="ar"] .cert-org { letter-spacing: 0; }
+    .cert-title { margin: 7px 0 0; font-size: 15px; font-weight: 600; letter-spacing: -0.025em; line-height: 1.34; }
+    .cert-footer { margin-top: 14px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .cert-date { color: var(--muted); font-size: 12px; }
+    .cert-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 13px;
+      background: rgba(49,95,216,0.07);
+      border: 1px solid rgba(49,95,216,0.14);
+      border-radius: 100px;
+      color: var(--blue);
+      font-size: 11px; font-weight: 600;
+      cursor: pointer;
+      transition: background 0.22s ease, border-color 0.22s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+      text-decoration: none;
+    }
+    .cert-btn svg,
+    .cert-btn .lucide { width: 12px; height: 12px; }
+    .cert-btn:hover {
+      background: rgba(49,95,216,0.14);
+      border-color: rgba(49,95,216,0.35);
+      box-shadow: 0 4px 14px rgba(49,95,216,0.2);
+      transform: translateY(-2px);
+    }
+
+    /* =========================================================
+       TERMINAL
+    ========================================================= */
+    .terminal-section { background: var(--black); color: #ededea; transition: background 0.3s ease; }
+    [data-theme="dark"] .terminal-section { background: #0d0d0d; }
+    .terminal-section .section-index { color: var(--blue-soft); }
+    .terminal-wrapper {
+      margin-top: 70px;
+      display: grid;
+      grid-template-columns: minmax(0,1.4fr) minmax(240px,0.6fr);
+      gap: 14px;
+    }
+    .terminal {
+      min-height: 370px;
+      padding: 24px;
+      background: #0e0e0e;
+      border: 1px solid rgba(245,244,239,0.09);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    [data-theme="dark"] .terminal { background: #0a0a0a; }
+    .terminal-bar {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(245,244,239,0.07);
+    }
+    .terminal-dot { width: 7px; height: 7px; border-radius: 50%; background: #3a3a3a; }
+    .terminal-title { margin-inline-start: 7px; color: #555; font-size: 10px; font-weight: 600; display: inline-flex; align-items: center; gap: 5px; }
+    .terminal-title svg { width: 12px; height: 12px; }
+    .terminal-body {
+      padding-top: 24px;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 13.5px;
+      line-height: 2.1;
+    }
+    .terminal-line { display: block; }
+    .terminal-prompt { color: var(--blue-soft); }
+    .terminal-command { color: #c0c0c0; }
+    .terminal-result { color: #686868; }
+    .terminal-cursor {
+      display: inline-block;
+      width: 8px; height: 13px;
+      background: var(--blue-soft);
+      margin-inline-start: 4px;
+      vertical-align: middle;
+      animation: terminalBlink 1.1s step-end infinite;
+    }
+    @keyframes terminalBlink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+    .terminal-side {
+      min-height: 370px;
+      padding: 26px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 1px solid rgba(245,244,239,0.09);
+      border-radius: var(--radius);
+    }
+    .terminal-side-label { color: var(--blue-soft); font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+    html[lang="ar"] .terminal-side-label { letter-spacing: 0; }
+    .terminal-side-title {
+      max-width: 340px;
+      margin: 40px 0 0;
+      font-size: clamp(28px, 3.4vw, 50px);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+    html[lang="ar"] .terminal-side-title { line-height: 1.18; letter-spacing: -0.035em; }
+    .terminal-side-bottom { color: #686868; font-size: 13px; line-height: 1.82; }
+
+    /* =========================================================
+       CONTACT & IMPROVED FORM
+    ========================================================= */
+    .contact { padding-bottom: 120px; }
+    .contact-box {
+      background: var(--black);
+      color: #ededea;
+      border-radius: 26px;
+      padding: 60px;
+      transition: background 0.3s ease;
+    }
+    [data-theme="dark"] .contact-box {
+      background: #141414;
+      border: 1px solid rgba(245,244,239,0.08);
+    }
+    .contact-inner {
+      display: grid;
+      grid-template-columns: minmax(0,1.1fr) minmax(0,0.9fr);
+      gap: 80px;
+      align-items: start;
+    }
+    .contact-index { color: var(--blue-soft); font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; }
+    html[lang="ar"] .contact-index { letter-spacing: 0; }
+    .contact-title {
+      max-width: 700px;
+      margin: 32px 0 0;
+      font-size: clamp(42px, 5.8vw, 82px);
+      line-height: 0.94;
+      letter-spacing: -0.065em;
+    }
+    html[lang="ar"] .contact-title { line-height: 1.15; letter-spacing: -0.045em; }
+    .contact-description { max-width: 560px; margin: 26px 0 0; color: #888880; font-size: 15px; line-height: 1.82; }
+    html[lang="ar"] .contact-description { line-height: 2; }
+    .contact-socials { margin-top: 42px; border-top: 1px solid rgba(245,244,239,0.12); }
+    .contact-link {
+      min-height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      border-bottom: 1px solid rgba(245,244,239,0.12);
+      font-size: 14px;
+      transition: color 0.28s ease, padding 0.32s var(--ease);
+    }
+    .contact-link:hover { color: var(--blue-soft); padding-inline: 7px; }
+    .contact-link-label { color: #777; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+    html[lang="ar"] .contact-link-label { letter-spacing: 0; }
+
+    /* Contact Form Polish */
+    .contact-form-wrap {
+      align-self: start;
+    }
+    .contact-form-label {
+      color: var(--blue-soft);
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 22px;
+      display: block;
+    }
+    html[lang="ar"] .contact-form-label { letter-spacing: 0; }
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .form-group { display: flex; flex-direction: column; gap: 8px; }
+    .form-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #9c9c94;
+      letter-spacing: 0.03em;
+    }
+    .form-input, .form-textarea {
+      width: 100%;
+      background: rgba(245,244,239,0.05);
+      border: 1px solid rgba(245,244,239,0.12);
+      border-radius: 14px;
+      color: #f2f2ef;
+      font-size: 14px;
+      padding: 14px 18px;
+      outline: none;
+      transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+      resize: none;
+      -webkit-appearance: none;
+    }
+    .form-input { height: 50px; }
+    .form-textarea { min-height: 140px; max-height: 280px; line-height: 1.65; }
+    .form-input::placeholder, .form-textarea::placeholder { color: #666660; font-size: 13.5px; }
+    .form-input:hover, .form-textarea:hover {
+      border-color: rgba(245,244,239,0.22);
+      background: rgba(245,244,239,0.07);
+    }
+    .form-input:focus, .form-textarea:focus {
+      border-color: var(--blue-soft);
+      background: rgba(49,95,216,0.05);
+      box-shadow: 0 0 0 3px rgba(49,95,216,0.18);
+    }
+    .form-submit {
+      margin-top: 6px;
+      width: 100%;
+      min-height: 50px;
+      padding-inline: 24px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border-radius: 14px;
+      background: var(--blue);
+      color: white;
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.28s var(--ease), background 0.25s ease, box-shadow 0.25s ease;
+    }
+    .form-submit:hover {
+      transform: translateY(-2px);
+      background: var(--blue-soft);
+      box-shadow: 0 10px 28px rgba(49,95,216,0.38);
+    }
+    .form-submit:active { transform: translateY(0); }
+    .form-submit svg { width: 15px; height: 15px; transition: transform 0.25s var(--ease); }
+    .form-submit:hover svg { transform: translateX(3px); }
+    html[dir="rtl"] .form-submit:hover svg { transform: translateX(-3px); }
+    .form-note {
+      margin-top: 10px;
+      color: #6a6a62;
+      font-size: 11.5px;
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    /* =========================================================
+       FOOTER
+    ========================================================= */
+    footer {
+      padding-block: 28px;
+      background: var(--bg);
+      border-top: 1px solid var(--line);
+    }
+    .footer-inner {
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+    .footer-copy { color: var(--muted); font-size: 11.5px; }
+    .footer-links { display: flex; align-items: center; gap: 8px; }
+    .social-link {
+      width: 36px; height: 36px;
+      display: grid; place-items: center;
+      color: var(--muted);
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      transition: color 0.22s ease, border-color 0.22s ease, background 0.22s ease, transform 0.28s var(--ease);
+    }
+    .social-link svg,
+    .social-link .lucide { width: 15px; height: 15px; }
+    .social-link:hover {
+      color: var(--blue);
+      border-color: rgba(49,95,216,0.38);
+      background: rgba(49,95,216,0.06);
+      transform: translateY(-2px);
+    }
+
+    /* =========================================================
+       REVEAL ANIMATIONS (Smooth Cubic Curve + Scale)
+    ========================================================= */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px) scale(0.98);
+      transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    .reveal-delay-1 { transition-delay: 0.07s; }
+    .reveal-delay-2 { transition-delay: 0.14s; }
+    .reveal-delay-3 { transition-delay: 0.21s; }
+    .reveal-delay-4 { transition-delay: 0.28s; }
+    .reveal-delay-5 { transition-delay: 0.35s; }
+
+    /* =========================================================
+       CUSTOM CURSOR
+    ========================================================= */
+    .cursor-dot, .cursor-ring {
+      position: fixed;
+      top: 0; left: 0;
+      z-index: 10000;
+      pointer-events: none;
+      opacity: 0;
+      transform: translate(-50%,-50%);
+    }
+    .cursor-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--blue); }
+    .cursor-ring {
+      width: 30px; height: 30px;
+      border: 1px solid rgba(49,95,216,0.6);
+      border-radius: 50%;
+      transition: width 0.22s var(--ease), height 0.22s var(--ease), border-color 0.22s ease;
+    }
+    body.cursor-hover .cursor-ring { width: 46px; height: 46px; border-color: var(--blue); }
+
+    /* =========================================================
+   FIX HERO BUTTONS IN DARK MODE
+========================================================= */
+
+/* 1. الزرار الرئيسي (View my work): تحويل النص للأسود فوق الخلفية الفاتحة */
+[data-theme="dark"] .button-primary {
+  color: #111111 !important; /* لون الخط أسود داكن عشان يظهر بوضوح */
+  background: var(--text) !important; /* الخلفية الأوف وايت الفاتحة */
+  border-color: transparent !important;
+}
+
+[data-theme="dark"] .button-primary:hover {
+  color: #ffffff !important; /* عند الـ Hover يتحول النص للأبيض مع الأزرق */
+  background: var(--blue) !important;
+  box-shadow: 0 12px 28px -4px rgba(49, 95, 216, 0.45);
+}
+
+/* 2. الزرار الثانوي (Let's talk): إبراز الإطار واللون في الوضع الليلي */
+[data-theme="dark"] .button-secondary {
+  color: var(--text) !important;
+  border-color: rgba(245, 244, 239, 0.22) !important;
+  background: rgba(245, 244, 239, 0.04) !important;
+}
+
+[data-theme="dark"] .button-secondary:hover {
+  color: var(--blue-soft) !important;
+  border-color: var(--blue-soft) !important;
+  background: rgba(49, 95, 216, 0.1) !important;
+}
+
+    /* =========================================================
+       RESPONSIVE BREAKPOINTS
+    ========================================================= */
+    @media (max-width: 1280px) {
+      .nav-link { padding: 7px 10px; font-size: 11.5px; }
+      .stack-item { grid-template-columns: 56px 52px minmax(130px,0.75fr) minmax(0,1.25fr) 24px; gap: 14px; }
+    }
+
+    @media (max-width: 1050px) {
+      .container { width: min(calc(100% - 40px), 880px); }
+      .header-inner { width: calc(100% - 24px); }
+      .nav { display: none; }
+      .mobile-menu-button { display: flex; }
+      .header-actions { margin-inline-start: auto; }
+      .brand-role { display: none; }
+      .hero-grid { grid-template-columns: 1fr; gap: 44px; }
+      .hero-photo-area { justify-content: flex-start; }
+      .hero-photo-frame { max-width: 360px; aspect-ratio: 4/3; }
+      .about-grid { grid-template-columns: 1fr; gap: 48px; }
+      .profile-card { max-width: 500px; }
+      .tool-grid { grid-template-columns: repeat(3, minmax(0,1fr)); }
+      .services-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .certs-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .terminal-wrapper { grid-template-columns: 1fr; }
+      .terminal-side { min-height: 280px; }
+      .contact-inner { grid-template-columns: 1fr; gap: 48px; }
+      .contact-box { padding: 44px; }
+    }
+
+    @media (max-width: 820px) {
+      .services-grid { grid-template-columns: 1fr; }
+      .courses-grid { grid-template-columns: 1fr; }
+      .section { padding-block: 105px; }
+      .hero-title { font-size: clamp(50px, 12vw, 100px); }
+      html[lang="ar"] .hero-title { font-size: clamp(42px, 10vw, 85px); }
+    }
+
+    @media (max-width: 700px) {
+      .container { width: calc(100% - 28px); }
+      .section { padding-block: 88px; }
+      header { top: 9px; }
+      .header-inner {
+        width: calc(100% - 18px);
+        min-height: 56px;
+        padding: 6px 8px 6px 12px;
+        gap: 7px;
+      }
+      html[lang="ar"] .header-inner { padding: 6px 12px 6px 8px; }
+      .brand-mark { width: 36px; height: 36px; font-size: 11px; }
+      .brand-name { font-size: 11.5px; }
+      .header-actions { gap: 4px; }
+      .header-btn { height: 34px; }
+      .theme-toggle { width: 34px; }
+      .theme-toggle svg, .theme-toggle .lucide { width: 14px; height: 14px; }
+      .language-switch { min-width: 36px; padding-inline: 8px; font-size: 9.5px; }
+      .mobile-menu-button { width: 36px; height: 36px; }
+      .hero {
+        min-height: auto;
+        padding-top: 135px;
+        padding-bottom: 90px;
+      }
+      .hero-grid { gap: 36px; }
+      .hero-photo-area { justify-content: center; }
+      .hero-photo-frame { max-width: 100%; aspect-ratio: 3/2; border-radius: 18px; }
+      .hero-photo-dots { display: none; }
+      .eyebrow { margin-bottom: 20px; font-size: 9px; }
+      .hero-title { font-size: clamp(48px, 14.5vw, 92px); line-height: 0.88; }
+      html[lang="ar"] .hero-title { font-size: clamp(40px, 12vw, 76px); line-height: 1.05; }
+      .hero-description { margin-top: 24px; font-size: 14.5px; }
+      .hero-actions { margin-top: 24px; }
+      .button-primary, .button-secondary { min-height: 46px; padding-inline: 18px; font-size: 12px; }
+      .hero-scroll { display: none; }
+      .section-index { margin-bottom: 22px; font-size: 10.5px; }
+      .section-heading { font-size: clamp(38px, 12vw, 66px); }
+      .section-intro { margin-top: 20px; font-size: 14px; }
+      .about-grid { gap: 36px; }
+      .about-lead { font-size: clamp(24px, 7vw, 38px); }
+      .about-body { margin-top: 20px; font-size: 14px; }
+      .profile-card { padding: 22px; }
+      .profile-year { margin-top: 55px; }
+      .profile-meta { margin-top: 42px; }
+      .stack-list { margin-top: 44px; }
+      .stack-item {
+        min-height: auto;
+        grid-template-columns: 34px 44px minmax(0,1fr) 18px;
+        gap: 8px;
+        padding-block: 18px;
+      }
+      .stack-description { display: none; }
+      .stack-name { font-size: 16px; }
+      .stack-icon { width: 38px; height: 38px; font-size: 22px; }
+      .tool-grid { margin-top: 36px; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 8px; }
+      .tool-card { min-height: 120px; padding: 16px; }
+      .tool-icon { font-size: 24px; }
+      .tool-name { margin-top: 16px; font-size: 13px; }
+      .service-card { padding: 24px; }
+
+      /* Academic Track Mobile Adaptation */
+      .academic-wrapper { margin-top: 44px; gap: 28px; }
+      .academic-card {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px;
+        gap: 16px;
+      }
+      .academic-card-right {
+        border-inline-start: none;
+        padding-inline-start: 0;
+        padding-top: 12px;
+        border-top: 1px solid var(--line);
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .courses-grid { grid-template-columns: 1fr; gap: 12px; }
+      .course-card { padding: 18px 20px; }
+
+      .projects-grid { margin-top: 46px; grid-template-columns: 1fr; gap: 12px; }
+      .project-card { padding: 20px; border-radius: 18px; }
+      .project-visual { min-height: 210px; }
+      .project-info { padding-top: 20px; }
+      .project-title { font-size: 22px; }
+      .project-description { font-size: 12.5px; }
+      .project-footer { margin-top: 18px; }
+      .certs-grid { grid-template-columns: 1fr; margin-top: 46px; }
+      .terminal-wrapper { margin-top: 46px; }
+      .terminal { min-height: 320px; padding: 18px; }
+      .terminal-body { font-size: 11px; line-height: 2.2; }
+      .terminal-side { min-height: 240px; padding: 20px; }
+      .terminal-side-title { margin-top: 24px; font-size: 32px; }
+      .contact { padding-bottom: 80px; }
+      .contact-box { padding: 28px 20px; border-radius: 20px; }
+      .contact-title { margin-top: 22px; font-size: clamp(36px, 11vw, 60px); }
+      .contact-description { margin-top: 18px; font-size: 13px; }
+      .contact-link { min-height: 58px; font-size: 12.5px; }
+      .footer-inner { align-items: flex-start; flex-direction: column; gap: 14px; }
+    }
+
+    @media (max-width: 480px) {
+      .container { width: calc(100% - 24px); }
+      .hero-photo-frame { aspect-ratio: 4/3; }
+      .section-heading { font-size: clamp(34px, 11vw, 60px); }
+      .certs-grid { gap: 10px; }
+      .projects-grid { gap: 10px; }
+    }
+
+    @media (max-width: 390px) {
+      .container { width: calc(100% - 22px); }
+      .brand-copy { max-width: 105px; }
+      .brand-name { font-size: 11px; }
+      .hero { padding-top: 124px; }
+      .hero-title { font-size: clamp(44px, 13.5vw, 70px); }
+      html[lang="ar"] .hero-title { font-size: 40px; }
+      .hero-actions { flex-direction: column; align-items: stretch; }
+      .button-primary, .button-secondary { width: 100%; justify-content: center; }
+      .tool-grid { grid-template-columns: 1fr 1fr; }
+      .tool-card { min-height: 112px; }
+      .contact-link > span:first-child { max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .form-input, .form-textarea { font-size: 13px; }
+    }
+
+    @media (max-width: 320px) {
+      .brand-copy { display: none; }
+      .hero-title { font-size: 40px; }
+      html[lang="ar"] .hero-title { font-size: 36px; }
+      .section-heading { font-size: clamp(30px, 10.5vw, 52px); }
+    }
+
+    /* Touch Devices */
+    @media (hover: none), (pointer: coarse) {
+      .cursor-dot, .cursor-ring { display: none !important; }
+      .project-card:hover,
+      .tool-card:hover,
+      .button-primary:hover,
+      .button-secondary:hover,
+      .service-card:hover,
+      .cert-card:hover,
+      .academic-card:hover,
+      .course-card:hover { transform: none; box-shadow: none; }
+    }
+
+    /* Reduced Motion */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      .reveal {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+      }
+      .hero-stagger { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- PRELOADER -->
+  <div class="preloader" id="preloader">
+    <div class="preloader-inner">
+      <div class="preloader-mark">
+        <div class="preloader-ring"></div>
+        <div class="preloader-mark-text">MK</div>
+      </div>
+      <div class="preloader-bar-wrap">
+        <div class="preloader-bar"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCROLL PROGRESS -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <div class="page">
+
+    <!-- =====================================================
+         HEADER
+    ===================================================== -->
+    <header id="siteHeader">
+      <div class="header-inner">
+
+        <a href="#home" class="brand" aria-label="Mohamed Ahmed Khedr">
+          <span class="brand-mark">MK</span>
+          <span class="brand-copy">
+            <span class="brand-name" data-en="Mohamed Ahmed Khedr" data-ar="محمد أحمد خضر">Mohamed Ahmed Khedr</span>
+            <span class="brand-role" data-en="Computer Engineer · Full-Stack" data-ar="مهندس كمبيوتر · Full-Stack">Computer Engineer · Full-Stack</span>
+          </span>
+        </a>
+
+        <nav class="nav" aria-label="Primary navigation">
+          <a href="#about"        class="nav-link" data-section="about"        data-en="About"     data-ar="عنّي">About</a>
+          <a href="#stack"        class="nav-link" data-section="stack"        data-en="Stack"     data-ar="التقنيات">Stack</a>
+          <a href="#services"     class="nav-link" data-section="services"     data-en="Services"  data-ar="الخدمات">Services</a>
+          <a href="#projects"     class="nav-link" data-section="projects"     data-en="Work"      data-ar="الأعمال">Work</a>
+          <a href="#education"    class="nav-link" data-section="education"    data-en="Academic"  data-ar="الأكاديمي">Academic</a>
+          <a href="#certificates" class="nav-link" data-section="certificates" data-en="Certs"     data-ar="الشهادات">Certs</a>
+          <a href="#contact"      class="nav-link" data-section="contact"      data-en="Contact"   data-ar="تواصل">Contact</a>
+        </nav>
+
+        <div class="header-actions">
+
+          <!-- Theme Toggle -->
+          <button class="header-btn theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark mode">
+            <!-- Sun (shown in dark mode) -->
+            <svg class="lucide lucide-sun" id="iconSun" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none" aria-hidden="true">
+              <circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+            </svg>
+            <!-- Moon (shown in light mode) -->
+            <svg class="lucide lucide-moon" id="iconMoon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+            </svg>
+          </button>
+
+          <!-- Language Switch -->
+          <button class="header-btn language-switch" id="languageSwitch" type="button" aria-label="Switch to Arabic">
+            <span id="languageIcon">ع</span>
+          </button>
+
+          <!-- Mobile Menu -->
+          <button class="mobile-menu-button" id="mobileMenuButton" type="button" aria-label="Open navigation" aria-expanded="false">
+            <span id="menuLine1"></span>
+            <span id="menuLine2"></span>
+          </button>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- Mobile Nav -->
+    <nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation" aria-hidden="true">
+      <a href="#about"        class="mobile-nav-link" data-en="About"     data-ar="عنّي">     <span>About</span>     <span class="mobile-nav-link-num">01</span></a>
+      <a href="#stack"        class="mobile-nav-link" data-en="Stack"     data-ar="التقنيات"> <span>Stack</span>     <span class="mobile-nav-link-num">02</span></a>
+      <a href="#services"     class="mobile-nav-link" data-en="Services"  data-ar="الخدمات">  <span>Services</span>  <span class="mobile-nav-link-num">03</span></a>
+      <a href="#projects"     class="mobile-nav-link" data-en="Work"      data-ar="الأعمال">  <span>Work</span>      <span class="mobile-nav-link-num">04</span></a>
+      <a href="#education"    class="mobile-nav-link" data-en="Academic"  data-ar="الأكاديمي"><span>Academic</span>  <span class="mobile-nav-link-num">05</span></a>
+      <a href="#certificates" class="mobile-nav-link" data-en="Certs"     data-ar="الشهادات"> <span>Certs</span>     <span class="mobile-nav-link-num">06</span></a>
+      <a href="#contact"      class="mobile-nav-link" data-en="Contact"   data-ar="تواصل">    <span>Contact</span>   <span class="mobile-nav-link-num">07</span></a>
+    </nav>
+
+    <main>
+
+      <!-- ===================================================
+           HERO
+      =================================================== -->
+      <section class="hero" id="home">
+        <div class="container">
+          <div class="hero-grid">
+
+            <div class="hero-content">
+              <div class="eyebrow hero-stagger" style="animation-delay:0.05s">
+                <span class="status-dot"></span>
+                <span data-en="Available for opportunities & collaboration" data-ar="متاح للفرص والتعاون">Available for opportunities &amp; collaboration</span>
+              </div>
+
+              <!-- THINK. BUILD. EVOLVE. -->
+              <h1 class="hero-title">
+                <span class="hero-stagger" style="animation-delay:0.12s" data-en="THINK." data-ar="فكّر.">THINK.</span>
+                <span class="hero-stagger" style="animation-delay:0.19s" data-en="BUILD." data-ar="ابنِ.">BUILD.</span>
+                <span class="accent hero-stagger" style="animation-delay:0.26s">
+                  <span data-en="EVOLVE." data-ar="تطوّر.">EVOLVE.</span>
+                </span>
+              </h1>
+
+              <p class="hero-description hero-stagger" style="animation-delay:0.33s"
+                data-en="I'm Mohamed Ahmed Khedr — a Computer Engineer and Full-Stack Developer focused on building clean, responsive and practical web experiences."
+                data-ar="أنا محمد أحمد خضر — مهندس كمبيوتر ومطور Full-Stack، بركّز على بناء تجارب ويب نظيفة، سريعة، متجاوبة وعملية.">
+                I'm Mohamed Ahmed Khedr — a Computer Engineer and Full-Stack Developer focused on building clean, responsive and practical web experiences.
+              </p>
+
+              <div class="hero-actions hero-stagger" style="animation-delay:0.40s">
+                <a href="#projects" class="button-primary">
+                  <span data-en="View my work" data-ar="شوف أعمالي">View my work</span>
+                  <span class="button-arrow">
+                    <svg class="lucide lucide-arrow-right" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                  </span>
+                </a>
+                <a href="#contact" class="button-secondary">
+                  <span data-en="Let's talk" data-ar="نتكلم">Let's talk</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Photo Area -->
+            <div class="hero-photo-area hero-stagger" style="animation-delay:0.18s">
+              <div class="hero-photo-dots" aria-hidden="true">
+                <span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span>
+              </div>
+              <div class="hero-photo-frame">
+                <!--
+                  TO ADD YOUR PHOTO:
+                  Replace the .hero-photo-placeholder div with:
+                  <img src="your-photo.jpg" alt="Mohamed Ahmed Khedr" class="hero-photo-img" />
+                -->
+                <!-- <div class="hero-photo-placeholder" aria-hidden="true">
+                  <div class="hero-photo-placeholder-icon">
+                    <svg class="lucide lucide-user" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                  </div>
+                  <div class="hero-photo-placeholder-text" data-en="Your photo here" data-ar="صورتك هنا">Your photo here</div>
+                </div> -->
+
+                <div class="hero-photo-frame">
+  <!-- صورتك الشخصية -->
+  <img src="WhatsApp Image 2026-08-16 at 1.54.17 AM.jpeg" alt="Mohamed Ahmed Khedr" class="hero-photo-img" />
+
+  <!-- البادج اللي فيه اسمك ووظيفتك (سيبه زي ما هو فوق الصورة) -->
+  <div class="hero-photo-badge">
+    <div class="hero-photo-badge-name" data-en="Mohamed Ahmed Khedr" data-ar="محمد أحمد خضر">Mohamed Ahmed Khedr</div>
+    <div class="hero-photo-badge-role" data-en="Computer Engineer · Full-Stack" data-ar="مهندس كمبيوتر · Full-Stack">Computer Engineer · Full-Stack</div>
+  </div>
+</div>
+                <div class="hero-photo-badge">
+                  <div class="hero-photo-badge-name" data-en="Mohamed Ahmed Khedr" data-ar="محمد أحمد خضر">Mohamed Ahmed Khedr</div>
+                  <div class="hero-photo-badge-role" data-en="Computer Engineer · Full-Stack" data-ar="مهندس كمبيوتر · Full-Stack">Computer Engineer · Full-Stack</div>
+                </div>
+              </div>
+              <div class="hero-photo-line" aria-hidden="true"></div>
+            </div>
+
+          </div>
+        </div>
+        <div class="hero-scroll" aria-hidden="true">
+          <span data-en="Scroll" data-ar="اسحب">Scroll</span>
+          <span class="hero-scroll-line"></span>
+        </div>
+      </section>
+
+
+      <!-- ===================================================
+           ABOUT
+      =================================================== -->
+      <section class="section about" id="about">
+        <div class="container">
+          <div class="section-index reveal" data-en="01 — ABOUT" data-ar="01 — عنّي">01 — ABOUT</div>
+          <div class="about-grid">
+            <div class="about-copy">
+              <h2 class="section-heading reveal" data-en="Who I am." data-ar="مين أنا.">Who I am.</h2>
+              <p class="about-lead reveal">
+                <span data-en="I care about the space between " data-ar="بهتم بالمساحة اللي بين ">I care about the space between </span>
+                <strong class="blue" data-en="design" data-ar="التصميم">design</strong><span data-en=", " data-ar="، ">, </span>
+                <strong data-en="code" data-ar="الكود">code</strong>
+                <span data-en=" and usability." data-ar=" وسهولة الاستخدام."> and usability.</span>
+              </p>
+              <p class="about-body reveal"
+                data-en="I'm studying Computer Engineering at Menoufia National University while building my path as a Full-Stack Web Developer. I like simple interfaces, thoughtful interactions and code that stays understandable after the first version."
+                data-ar="بدرس هندسة الكمبيوتر في جامعة المنوفية الأهلية، وببني في نفس الوقت طريقي كمطور Full-Stack. بحب الواجهات البسيطة، التفاصيل المدروسة، والكود اللي يفضل واضح وسهل تطويره حتى بعد أول نسخة.">
+                I'm studying Computer Engineering at Menoufia National University while building my path as a Full-Stack Web Developer. I like simple interfaces, thoughtful interactions and code that stays understandable after the first version.
+              </p>
+            </div>
+            <div class="profile-card reveal">
+              <div class="profile-label" data-en="Profile" data-ar="الملف الشخصي">Profile</div>
+              <div class="profile-year" id="aboutYear">2025</div>
+              <div class="profile-name" data-en="Mohamed Ahmed Khedr" data-ar="محمد أحمد خضر">Mohamed Ahmed Khedr</div>
+              <div class="profile-role" data-en="Computer Engineer & Full-Stack Developer" data-ar="مهندس كمبيوتر ومطور Full-Stack">Computer Engineer &amp; Full-Stack Developer</div>
+              <div class="profile-meta">
+                <div class="profile-meta-item">
+                  <div class="profile-meta-label" data-en="Focus" data-ar="التركيز">Focus</div>
+                  <div class="profile-meta-value" data-en="Web Development" data-ar="تطوير الويب">Web Development</div>
+                </div>
+                <div class="profile-meta-item">
+                  <div class="profile-meta-label" data-en="Approach" data-ar="الأسلوب">Approach</div>
+                  <div class="profile-meta-value" data-en="Simple · Useful · Fast" data-ar="بسيط · مفيد · سريع">Simple · Useful · Fast</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ===================================================
+           STACK
+      =================================================== -->
+      <section class="section stack" id="stack">
+        <div class="container">
+          <div class="section-index reveal" data-en="02 — STACK" data-ar="02 — التقنيات">02 — STACK</div>
+          <h2 class="section-heading stack-heading reveal" data-en="Tools I build with." data-ar="التقنيات اللي ببني بيها.">Tools I build with.</h2>
+          <p class="section-intro reveal"
+            data-en="A practical stack for building complete web experiences — from the interface to the API and database."
+            data-ar="مجموعة تقنيات عملية لبناء تجارب ويب كاملة — من الواجهة للـ API وقاعدة البيانات.">
+            A practical stack for building complete web experiences — from the interface to the API and database.
+          </p>
+
+          <div class="stack-list">
+            <div class="stack-item reveal">
+              <span class="stack-number">01</span>
+              <span class="stack-icon"><i class="devicon-html5-plain colored"></i></span>
+              <span class="stack-name" data-en="HTML & CSS" data-ar="HTML و CSS">HTML &amp; CSS</span>
+              <span class="stack-description" data-en="Semantic structure, responsive layouts and clean visual systems." data-ar="بناء دلالي، تصميمات متجاوبة وأنظمة واجهات نظيفة.">Semantic structure, responsive layouts and clean visual systems.</span>
+              <span class="stack-arrow">
+                <svg class="lucide lucide-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </span>
+            </div>
+            <div class="stack-item reveal">
+              <span class="stack-number">02</span>
+              <span class="stack-icon"><i class="devicon-javascript-plain colored"></i></span>
+              <span class="stack-name" data-en="JavaScript" data-ar="JavaScript">JavaScript</span>
+              <span class="stack-description" data-en="Interactive interfaces, DOM logic, APIs and modern ES6+ development." data-ar="واجهات تفاعلية، DOM، APIs وتطوير JavaScript حديث.">Interactive interfaces, DOM logic, APIs and modern ES6+ development.</span>
+              <span class="stack-arrow">
+                <svg class="lucide lucide-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </span>
+            </div>
+            <div class="stack-item reveal">
+              <span class="stack-number">03</span>
+              <span class="stack-icon"><i class="devicon-react-original colored"></i></span>
+              <span class="stack-name">React</span>
+              <span class="stack-description" data-en="Component-based interfaces with reusable architecture and modern tooling." data-ar="واجهات مبنية من Components مع Architecture قابلة لإعادة الاستخدام.">Component-based interfaces with reusable architecture and modern tooling.</span>
+              <span class="stack-arrow">
+                <svg class="lucide lucide-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </span>
+            </div>
+            <div class="stack-item reveal">
+              <span class="stack-number">04</span>
+              <span class="stack-icon"><i class="devicon-vuejs-plain colored"></i></span>
+              <span class="stack-name">Vue</span>
+              <span class="stack-description" data-en="Clean reactive interfaces and practical frontend applications." data-ar="واجهات Reactive نظيفة وتطبيقات Frontend عملية.">Clean reactive interfaces and practical frontend applications.</span>
+              <span class="stack-arrow">
+                <svg class="lucide lucide-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </span>
+            </div>
+            <div class="stack-item reveal">
+              <span class="stack-number">05</span>
+              <span class="stack-icon"><i class="devicon-nodejs-plain colored"></i></span>
+              <span class="stack-name" data-en="Node.js & Express" data-ar="Node.js و Express">Node.js &amp; Express</span>
+              <span class="stack-description" data-en="Backend APIs, server-side logic and full-stack application development." data-ar="Backend APIs، منطق السيرفر وتطوير تطبيقات Full-Stack.">Backend APIs, server-side logic and full-stack application development.</span>
+              <span class="stack-arrow">
+                <svg class="lucide lucide-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </span>
+            </div>
+            <div class="stack-item reveal">
+              <span class="stack-number">06</span>
+              <span class="stack-icon"><i class="devicon-laravel-plain colored"></i></span>
+              <span class="stack-name" data-en="PHP & Laravel" data-ar="PHP و Laravel">PHP &amp; Laravel</span>
+              <span class="stack-description" data-en="Backend applications, routing, APIs and structured server-side development." data-ar="تطبيقات Backend، Routing، APIs وتطوير Server-side منظم.">Backend applications, routing, APIs and structured server-side development.</span>
+              <span class="stack-arrow">
+                <svg class="lucide lucide-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </span>
+            </div>
+          </div>
+
+          <div class="tool-grid">
+            <div class="tool-card reveal reveal-delay-1">
+              <div class="tool-top"><i class="tool-icon devicon-mysql-plain colored"></i><span class="tool-index">07</span></div>
+              <div><div class="tool-name">MySQL</div><div class="tool-category" data-en="Database" data-ar="قواعد بيانات">Database</div></div>
+            </div>
+            <div class="tool-card reveal reveal-delay-2">
+              <div class="tool-top"><i class="tool-icon devicon-sqlite-plain colored"></i><span class="tool-index">08</span></div>
+              <div><div class="tool-name">SQLite</div><div class="tool-category" data-en="Database" data-ar="قواعد بيانات">Database</div></div>
+            </div>
+            <div class="tool-card reveal reveal-delay-3">
+              <div class="tool-top"><i class="tool-icon devicon-git-plain colored"></i><span class="tool-index">09</span></div>
+              <div><div class="tool-name">Git</div><div class="tool-category" data-en="Version Control" data-ar="إدارة الإصدارات">Version Control</div></div>
+            </div>
+            <div class="tool-card reveal reveal-delay-4">
+              <div class="tool-top"><i class="tool-icon devicon-github-original" style="color:#a0a0a0"></i><span class="tool-index">10</span></div>
+              <div><div class="tool-name">GitHub</div><div class="tool-category" data-en="Collaboration" data-ar="تعاون">Collaboration</div></div>
+            </div>
+            <div class="tool-card reveal reveal-delay-1">
+              <div class="tool-top"><i class="tool-icon devicon-vitejs-plain colored"></i><span class="tool-index">11</span></div>
+              <div><div class="tool-name">Vite</div><div class="tool-category" data-en="Tooling" data-ar="أدوات">Tooling</div></div>
+            </div>
+            <div class="tool-card reveal reveal-delay-2">
+              <div class="tool-top"><i class="tool-icon devicon-bootstrap-plain colored"></i><span class="tool-index">12</span></div>
+              <div><div class="tool-name">Bootstrap</div><div class="tool-category" data-en="Frontend" data-ar="واجهة أمامية">Frontend</div></div>
+            </div>
+            <!-- Axios SVG for 100% reliable icon display -->
+            <div class="tool-card reveal reveal-delay-3">
+              <div class="tool-top">
+                <svg class="tool-icon" viewBox="0 0 24 24" width="28" height="28" fill="#5a29e4" aria-hidden="true"><path d="M11.025 2.164a.8.8 0 0 0-.712.435L3.107 16.945a.8.8 0 0 0 .714 1.155h4.156a.8.8 0 0 0 .72-.451l1.83-3.864h4.185l1.83 3.864a.8.8 0 0 0 .72.451h4.156a.8.8 0 0 0 .714-1.155L14.92 2.6a.8.8 0 0 0-.712-.435h-3.183zm1.603 4.225 1.488 3.14h-2.976l1.488-3.14z"/></svg>
+                <span class="tool-index">13</span>
+              </div>
+              <div><div class="tool-name">Axios</div><div class="tool-category" data-en="HTTP Client" data-ar="طلبات HTTP">HTTP Client</div></div>
+            </div>
+            <div class="tool-card reveal reveal-delay-4">
+              <div class="tool-top"><i class="tool-icon devicon-supabase-plain colored"></i><span class="tool-index">14</span></div>
+              <div><div class="tool-name">Supabase</div><div class="tool-category">Backend</div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ===================================================
+           SERVICES
+      =================================================== -->
+      <section class="section services" id="services">
+        <div class="container">
+          <div class="section-index reveal" data-en="03 — SERVICES" data-ar="03 — الخدمات">03 — SERVICES</div>
+          <h2 class="section-heading reveal" data-en="What I do." data-ar="بقدم إيه.">What I do.</h2>
+          <p class="section-intro reveal"
+            data-en="From focused frontend work to complete web applications, I build practical solutions around the actual problem."
+            data-ar="من شغل Frontend مركز لتطبيقات ويب كاملة، ببني حلول عملية حسب المشكلة الحقيقية.">
+            From focused frontend work to complete web applications, I build practical solutions around the actual problem.
+          </p>
+          <div class="services-grid">
+            <div class="service-card reveal reveal-delay-1">
+              <div class="service-card-icon">
+                <svg class="lucide lucide-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20M2 12h20"/></svg>
+              </div>
+              <div class="service-card-num" aria-hidden="true">01</div>
+              <h3 class="service-card-name" data-en="Website Development" data-ar="تطوير المواقع">Website Development</h3>
+              <p class="service-card-description"
+                data-en="Responsive websites with clean structure, thoughtful interactions and performance in mind."
+                data-ar="مواقع متجاوبة بهيكل نظيف وتفاعلات مدروسة مع الاهتمام بالأداء.">
+                Responsive websites with clean structure, thoughtful interactions and performance in mind.
+              </p>
+              <div class="service-card-tags"><span class="service-tag">HTML</span><span class="service-tag">CSS</span><span class="service-tag">JavaScript</span></div>
+            </div>
+            <div class="service-card reveal reveal-delay-2">
+              <div class="service-card-icon">
+                <svg class="lucide lucide-code-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m18 16 4-4-4-4M6 8l-4 4 4 4M14.5 4l-5 16"/></svg>
+              </div>
+              <div class="service-card-num" aria-hidden="true">02</div>
+              <h3 class="service-card-name" data-en="Front-End Development" data-ar="تطوير Frontend">Front-End Development</h3>
+              <p class="service-card-description"
+                data-en="Modern interfaces using HTML, CSS, JavaScript, React or Vue with genuine responsive behavior."
+                data-ar="واجهات حديثة باستخدام HTML وCSS وJavaScript وReact أو Vue مع Responsive حقيقي.">
+                Modern interfaces using HTML, CSS, JavaScript, React or Vue with genuine responsive behavior.
+              </p>
+              <div class="service-card-tags"><span class="service-tag">React</span><span class="service-tag">Vue</span><span class="service-tag">Responsive</span></div>
+            </div>
+            <div class="service-card reveal reveal-delay-3">
+              <div class="service-card-icon">
+                <svg class="lucide lucide-server" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg>
+              </div>
+              <div class="service-card-num" aria-hidden="true">03</div>
+              <h3 class="service-card-name" data-en="Back-End & APIs" data-ar="Back-End و APIs">Back-End &amp; APIs</h3>
+              <p class="service-card-description"
+                data-en="Server-side logic, REST APIs, data handling and integrations using Node.js, Express, PHP and Laravel."
+                data-ar="منطق السيرفر، REST APIs، التعامل مع البيانات والربط بين الخدمات باستخدام Node.js وLaravel.">
+                Server-side logic, REST APIs, data handling and integrations using Node.js, Express, PHP and Laravel.
+              </p>
+              <div class="service-card-tags"><span class="service-tag">Node.js</span><span class="service-tag">Laravel</span><span class="service-tag">REST</span></div>
+            </div>
+            <div class="service-card reveal reveal-delay-1">
+              <div class="service-card-icon">
+                <svg class="lucide lucide-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg>
+              </div>
+              <div class="service-card-num" aria-hidden="true">04</div>
+              <h3 class="service-card-name" data-en="Full-Stack Development" data-ar="تطوير Full-Stack">Full-Stack Development</h3>
+              <p class="service-card-description"
+                data-en="Complete web applications connecting frontend interfaces, backend logic and databases end-to-end."
+                data-ar="تطبيقات ويب كاملة بتربط الواجهة بالـ Backend وقاعدة البيانات من البداية للنهاية.">
+                Complete web applications connecting frontend interfaces, backend logic and databases end-to-end.
+              </p>
+              <div class="service-card-tags"><span class="service-tag">Full-Stack</span><span class="service-tag">MySQL</span><span class="service-tag">Supabase</span></div>
+            </div>
+            <div class="service-card reveal reveal-delay-2">
+              <div class="service-card-icon">
+                <svg class="lucide lucide-gauge" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg>
+              </div>
+              <div class="service-card-num" aria-hidden="true">05</div>
+              <h3 class="service-card-name" data-en="Website Improvement" data-ar="تحسين المواقع">Website Improvement</h3>
+              <p class="service-card-description"
+                data-en="Improving responsiveness, structure, UI details, usability and overall frontend quality of existing sites."
+                data-ar="تحسين الـ Responsive والـ UI والهيكل وسهولة الاستخدام وجودة الواجهة للمواقع الموجودة.">
+                Improving responsiveness, structure, UI details, usability and overall frontend quality of existing sites.
+              </p>
+              <div class="service-card-tags"><span class="service-tag">UI/UX</span><span class="service-tag">Performance</span><span class="service-tag">Refactor</span></div>
+            </div>
+            <div class="service-card reveal reveal-delay-3">
+              <div class="service-card-icon">
+                <svg class="lucide lucide-workflow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="8" height="8" x="3" y="3" rx="2"/><path d="M7 11v4a2 2 0 0 0 2 2h4"/><rect width="8" height="8" x="13" y="13" rx="2"/></svg>
+              </div>
+              <div class="service-card-num" aria-hidden="true">06</div>
+              <h3 class="service-card-name" data-en="API Integration" data-ar="ربط APIs">API Integration</h3>
+              <p class="service-card-description"
+                data-en="Connecting frontend applications with external services, third-party APIs and backend data sources."
+                data-ar="ربط تطبيقات الـ Frontend بالخدمات الخارجية وAPIs الخارجية ومصادر البيانات.">
+                Connecting frontend applications with external services, third-party APIs and backend data sources.
+              </p>
+              <div class="service-card-tags"><span class="service-tag">REST API</span><span class="service-tag">Axios</span><span class="service-tag">Integration</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ===================================================
+           PROJECTS
+      =================================================== -->
+      <section class="section projects" id="projects">
+        <div class="container">
+          <div class="section-index reveal" data-en="04 — WORK" data-ar="04 — الأعمال">04 — WORK</div>
+          <h2 class="section-heading reveal" data-en="Selected work." data-ar="من أعمالي.">Selected work.</h2>
+          <p class="section-intro reveal"
+            data-en="A selection of real projects. More will be added as they are ready."
+            data-ar="مجموعة من المشاريع الحقيقية. هضيف أكتر لما تكون جاهزة.">
+            A selection of real projects. More will be added as they are ready.
+          </p>
+
+          <div class="projects-grid">
+
+           
+           <!-- Project 1 — Vertex -->
+<article class="project-card reveal">
+  <div class="project-visual">
+    <div class="project-visual-ring"></div>
+    <!-- صورة المعاينة للمشروع -->
+    <img src="لقطة الشاشة 2026-09-18 014442.jpg" alt="Vertex — Digital Solutions Preview" class="project-visual-img" />
+  </div>
+  <div class="project-info">
+    <div class="project-type" data-en="Web Experience" data-ar="تجربة ويب">Web Experience</div>
+    <h3 class="project-title" data-en="Vertex — Digital Solutions" data-ar="Vertex — حلول رقمية">Vertex — Digital Solutions</h3>
+    <p class="project-description"
+      data-en="A clean digital solutions landing page built with HTML, CSS and JavaScript, with a production contact integration."
+      data-ar="Landing Page لحلول رقمية مبنية باستخدام HTML وCSS وJavaScript مع ربط حقيقي لنموذج التواصل.">
+      A clean digital solutions landing page built with HTML, CSS and JavaScript, with a production contact integration.
+    </p>
+    <div class="project-footer">
+      <div class="project-tags">
+        <span class="project-tag">HTML</span><span class="project-tag">CSS</span><span class="project-tag">JavaScript</span><span class="project-tag">Vercel</span>
+      </div>
+      <div class="project-actions">
+        <a href="https://vertexkhedr.vercel.app/" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="Live demo">
+          <svg class="lucide lucide-external-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</article>
+
+            <!-- Project 2 -->
+            <article class="project-card reveal">
+              <div class="project-visual">
+                <div class="project-visual-ring"></div>
+                <div class="project-visual-placeholder">
+                  <div class="project-logo">P2</div>
+                  <div class="project-placeholder-label" data-en="Add screenshot" data-ar="أضف لقطة شاشة">Add screenshot</div>
+                </div>
+              </div>
+              <div class="project-info">
+                <div class="project-type" data-en="Project Type" data-ar="نوع المشروع">Project Type</div>
+                <h3 class="project-title" data-en="Project Title — Edit Me" data-ar="عنوان المشروع — عدّل هنا">Project Title — Edit Me</h3>
+                <p class="project-description"
+                  data-en="Add your project description here. What does it do and what makes it interesting?"
+                  data-ar="أضف وصف مشروعك هنا. ماذا يفعل وما الذي يجعله مثيرًا للاهتمام؟">
+                  Add your project description here. What does it do and what makes it interesting?
+                </p>
+                <div class="project-footer">
+                  <div class="project-tags"><span class="project-tag">Tech 1</span><span class="project-tag">Tech 2</span><span class="project-tag">Tech 3</span></div>
+                  <div class="project-actions">
+                    <a href="#" class="project-link" aria-label="Live demo">
+                      <svg class="lucide lucide-external-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+                    </a>
+                    <a href="#" class="project-link" aria-label="GitHub repository">
+                      <svg class="lucide lucide-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- Project 3 -->
+            <article class="project-card reveal">
+              <div class="project-visual">
+                <div class="project-visual-ring"></div>
+                <div class="project-visual-placeholder">
+                  <div class="project-logo">P3</div>
+                  <div class="project-placeholder-label" data-en="Add screenshot" data-ar="أضف لقطة شاشة">Add screenshot</div>
+                </div>
+              </div>
+              <div class="project-info">
+                <div class="project-type" data-en="Project Type" data-ar="نوع المشروع">Project Type</div>
+                <h3 class="project-title" data-en="Project Title — Edit Me" data-ar="عنوان المشروع — عدّل هنا">Project Title — Edit Me</h3>
+                <p class="project-description"
+                  data-en="Add your project description here. What does it do and what makes it interesting?"
+                  data-ar="أضف وصف مشروعك هنا. ما المشكلة التي يحلها وما الذي يجعله مثيرًا للاهتمام؟">
+                  Add your project description here. What does it do and what makes it interesting?
+                </p>
+                <div class="project-footer">
+                  <div class="project-tags"><span class="project-tag">Tech 1</span><span class="project-tag">Tech 2</span><span class="project-tag">Tech 3</span></div>
+                  <div class="project-actions">
+                    <a href="#" class="project-link" aria-label="Live demo">
+                      <svg class="lucide lucide-external-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+                    </a>
+                    <a href="#" class="project-link" aria-label="GitHub repository">
+                      <svg class="lucide lucide-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- Coming Soon -->
+            <article class="project-card reveal">
+              <div class="project-visual">
+                <div class="project-visual-ring"></div>
+                <div class="project-visual-placeholder">
+                  <div class="project-logo">MK</div>
+                  <div class="project-placeholder-label" data-en="Coming Soon" data-ar="قريبًا">Coming Soon</div>
+                </div>
+              </div>
+              <div class="project-info">
+                <div class="project-type" data-en="Coming Soon" data-ar="قريبًا">Coming Soon</div>
+                <h3 class="project-title" data-en="More work is on the way." data-ar="شغل أكتر جاي.">More work is on the way.</h3>
+                <p class="project-description"
+                  data-en="New web projects are being built and will appear here once they are ready to show."
+                  data-ar="مشاريع ويب جديدة بتتطور وهتظهر هنا أول ما تكون جاهزة للعرض.">
+                  New web projects are being built and will appear here once they are ready to show.
+                </p>
+                <div class="project-footer">
+                  <div class="project-tags"><span class="project-tag">React</span><span class="project-tag">Vue</span><span class="project-tag">Node</span></div>
+                </div>
+              </div>
+            </article>
+
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ===================================================
+           ACADEMIC TRACK & COURSEWORK (#education)
+      =================================================== -->
+      <section class="section education" id="education">
+        <div class="container">
+          <div class="section-index reveal" data-en="05 — ACADEMIC TRACK" data-ar="05 — المسار الأكاديمي">05 — ACADEMIC TRACK</div>
+          <h2 class="section-heading reveal" data-en="Academic foundation." data-ar="الأساس الأكاديمي.">Academic foundation.</h2>
+          <p class="section-intro reveal"
+            data-en="Grounding practical software engineering in formal Computer Engineering studies and specialized coursework."
+            data-ar="ترسيخ هندسة البرمجيات العملية من خلال دراسة هندسة الكمبيوتر والمساقات التخصصية.">
+            Grounding practical software engineering in formal Computer Engineering studies and specialized coursework.
+          </p>
+
+          <div class="academic-wrapper">
+
+            <!-- Redesigned Compact Academic Track Card (Year and GPA completely removed) -->
+            <div class="academic-card reveal">
+              <div class="academic-card-left">
+                <div class="academic-icon-box" aria-hidden="true">
+                  <svg class="lucide lucide-graduation-cap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></svg>
+                </div>
+                <div class="academic-details">
+                  <div class="academic-badge-row">
+                    <span class="academic-status-pill">
+                      <span class="academic-status-dot"></span>
+                      <span data-en="Current Degree" data-ar="الدرجة الحالية">Current Degree</span>
+                    </span>
+                    <span class="academic-period">2023 — 2027</span>
+                  </div>
+                  <h3 class="academic-uni" data-en="Menoufia National University" data-ar="جامعة المنوفية الأهلية">Menoufia National University</h3>
+                  <p class="academic-degree" data-en="B.Sc. in Computer Engineering" data-ar="بكالوريوس في هندسة الكمبيوتر">B.Sc. in Computer Engineering</p>
+                </div>
+              </div>
+              <div class="academic-card-right">
+                <span class="academic-tag-label" data-en="Faculty" data-ar="الكلية">Faculty</span>
+                <span class="academic-tag-value" data-en="Engineering" data-ar="الهندسة">Engineering</span>
+              </div>
+            </div>
+
+            <!-- Reusable Course Cards Section -->
+            <div class="courses-wrap">
+              <div class="courses-header reveal">
+                <h3 class="courses-title" data-en="Relevant Coursework" data-ar="المساقات الأكاديمية">Relevant Coursework</h3>
+                <span class="courses-subtitle" data-en="Core topics & engineering fundamentals" data-ar="المفاهيم الأساسية وهندسة الحاسوب">Core topics &amp; engineering fundamentals</span>
+              </div>
+
+              <div class="courses-grid">
+                <!--
+                  REUSABLE COURSE CARD TEMPLATE
+                  Duplicate any .course-card block below to add more courses.
+                  Edit: icon svg, status, course name, and description.
+                -->
+                <!-- Course 1 -->
+                <div class="course-card reveal reveal-delay-1">
+                  <div class="course-top">
+                    <div class="course-icon-wrap" aria-hidden="true">
+                      <svg class="lucide lucide-binary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="14" width="4" height="6" rx="2"/><rect x="6" y="4" width="4" height="6" rx="2"/><path d="M6 20h4"/><path d="M14 10h4"/><path d="M6 14h2v6"/><path d="M14 4h2v6"/></svg>
+                    </div>
+                    <span class="course-status completed" data-en="Completed" data-ar="مكتمل">Completed</span>
+                  </div>
+                  <h4 class="course-name" data-en="Data Structures & Algorithms" data-ar="هياكل البيانات والخوارزميات">Data Structures &amp; Algorithms</h4>
+                  <p class="course-desc" data-en="Problem solving, computational complexity, memory management and data organization." data-ar="حل المشكلات، التعقيد الحسابي، إدارة الذاكرة وتنظيم البيانات.">Problem solving, computational complexity, memory management and data organization.</p>
+                </div>
+
+                <!-- Course 2 -->
+                <div class="course-card reveal reveal-delay-2">
+                  <div class="course-top">
+                    <div class="course-icon-wrap" aria-hidden="true">
+                      <svg class="lucide lucide-database" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg>
+                    </div>
+                    <span class="course-status" data-en="Core" data-ar="أساسي">Core</span>
+                  </div>
+                  <h4 class="course-name" data-en="Database Management Systems" data-ar="أنظمة إدارة قواعد البيانات">Database Management Systems</h4>
+                  <p class="course-desc" data-en="Relational modeling, normalization, SQL optimization, indexing and transactional integrity." data-ar="النمذجة العلائقية، تسوية البيانات، تحسين استعلامات SQL وتكامل المعاملات.">Relational modeling, normalization, SQL optimization, indexing and transactional integrity.</p>
+                </div>
+
+                <!-- Course 3 -->
+                <div class="course-card reveal reveal-delay-3">
+                  <div class="course-top">
+                    <div class="course-icon-wrap" aria-hidden="true">
+                      <svg class="lucide lucide-cpu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2M15 20v2M2 15h2M2 9h2M20 15h2M20 9h2M9 2v2M9 20v2"/></svg>
+                    </div>
+                    <span class="course-status" data-en="Core" data-ar="أساسي">Core</span>
+                  </div>
+                  <h4 class="course-name" data-en="Operating Systems & Architecture" data-ar="أنظمة التشغيل وبنية الحاسوب">Operating Systems &amp; Architecture</h4>
+                  <p class="course-desc" data-en="Processes, threads, memory hierarchy, CPU scheduling and concurrent execution." data-ar="العمليات، الخيوط البرمجية، هرمية الذاكرة وجدولة المعالج والتنفيذ المتزامن.">Processes, threads, memory hierarchy, CPU scheduling and concurrent execution.</p>
+                </div>
+
+                <!-- Course 4 -->
+                <div class="course-card reveal reveal-delay-4">
+                  <div class="course-top">
+                    <div class="course-icon-wrap" aria-hidden="true">
+                      <svg class="lucide lucide-network" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg>
+                    </div>
+                    <span class="course-status" data-en="In Progress" data-ar="قيد الدراسة">In Progress</span>
+                  </div>
+                  <h4 class="course-name" data-en="Computer Networks & Protocols" data-ar="شبكات الحاسوب والبروتوكولات">Computer Networks &amp; Protocols</h4>
+                  <p class="course-desc" data-en="OSI model, TCP/IP stack, socket programming, routing protocols and network security." data-ar="نموذج OSI، حزمة TCP/IP، برمجة المقابس، بروتوكولات التوجيه وأمن الشبكات.">OSI model, TCP/IP stack, socket programming, routing protocols and network security.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ===================================================
+           CERTIFICATES
+      =================================================== -->
+      <section class="section certificates" id="certificates">
+        <div class="container">
+          <div class="section-index reveal" data-en="06 — CERTIFICATES" data-ar="06 — الشهادات">06 — CERTIFICATES</div>
+          <h2 class="section-heading reveal" data-en="Earned credentials." data-ar="الشهادات المكتسبة.">Earned credentials.</h2>
+          <p class="section-intro reveal"
+            data-en="Courses and certifications that complement my academic and practical development."
+            data-ar="دورات وشهادات تكمل مسيرتي الأكاديمية والعملية.">
+            Courses and certifications that complement my academic and practical development.
+          </p>
+
+          <div class="certs-grid">
+            <!--
+              CERTIFICATE CARD TEMPLATE
+              To add a real certificate:
+              1. Replace .cert-visual-placeholder with:
+                 <img src="cert.jpg" alt="Certificate Name" class="cert-visual-img"/>
+              2. Edit cert-org, cert-title, cert-date, and href on cert-btn.
+            -->
+            <article class="cert-card reveal reveal-delay-1">
+              <div class="cert-visual">
+                <div class="cert-visual-placeholder">
+                  <div class="cert-visual-placeholder-icon">
+                    <svg class="lucide lucide-award" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"/><circle cx="12" cy="8" r="6"/></svg>
+                  </div>
+                </div>
+                <div class="cert-visual-accent"></div>
+              </div>
+              <div class="cert-body">
+                <div class="cert-org" data-en="Issuing Organization" data-ar="الجهة المانحة">Issuing Organization</div>
+                <div class="cert-title" data-en="Certificate Title — Edit Me" data-ar="عنوان الشهادة — عدّل هنا">Certificate Title — Edit Me</div>
+                <div class="cert-footer">
+                  <div class="cert-date" data-en="Month Year" data-ar="الشهر والسنة">Month Year</div>
+                  <a href="#" target="_blank" rel="noopener noreferrer" class="cert-btn">
+                    <svg class="lucide lucide-external-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+                    <span data-en="View" data-ar="عرض">View</span>
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <article class="cert-card reveal reveal-delay-2">
+              <div class="cert-visual">
+                <div class="cert-visual-placeholder">
+                  <div class="cert-visual-placeholder-icon">
+                    <svg class="lucide lucide-award" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"/><circle cx="12" cy="8" r="6"/></svg>
+                  </div>
+                </div>
+                <div class="cert-visual-accent"></div>
+              </div>
+              <div class="cert-body">
+                <div class="cert-org" data-en="Issuing Organization" data-ar="الجهة المانحة">Issuing Organization</div>
+                <div class="cert-title" data-en="Certificate Title — Edit Me" data-ar="عنوان الشهادة — عدّل هنا">Certificate Title — Edit Me</div>
+                <div class="cert-footer">
+                  <div class="cert-date" data-en="Month Year" data-ar="الشهر والسنة">Month Year</div>
+                  <a href="#" target="_blank" rel="noopener noreferrer" class="cert-btn">
+                    <svg class="lucide lucide-external-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+                    <span data-en="View" data-ar="عرض">View</span>
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <article class="cert-card reveal reveal-delay-3">
+              <div class="cert-visual">
+                <div class="cert-visual-placeholder">
+                  <div class="cert-visual-placeholder-icon">
+                    <svg class="lucide lucide-award" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"/><circle cx="12" cy="8" r="6"/></svg>
+                  </div>
+                </div>
+                <div class="cert-visual-accent"></div>
+              </div>
+              <div class="cert-body">
+                <div class="cert-org" data-en="Issuing Organization" data-ar="الجهة المانحة">Issuing Organization</div>
+                <div class="cert-title" data-en="Certificate Title — Edit Me" data-ar="عنوان الشهادة — عدّل هنا">Certificate Title — Edit Me</div>
+                <div class="cert-footer">
+                  <div class="cert-date" data-en="Month Year" data-ar="الشهر والسنة">Month Year</div>
+                  <a href="#" target="_blank" rel="noopener noreferrer" class="cert-btn">
+                    <svg class="lucide lucide-external-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+                    <span data-en="View" data-ar="عرض">View</span>
+                  </a>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ===================================================
+           TERMINAL
+      =================================================== -->
+      <section class="section terminal-section">
+        <div class="container">
+          <div class="section-index reveal" data-en="07 — DEVELOPER MODE" data-ar="07 — وضع المطور">07 — DEVELOPER MODE</div>
+          <h2 class="section-heading reveal" data-en="Behind the interface." data-ar="ورا الواجهة.">Behind the interface.</h2>
+
+          <div class="terminal-wrapper">
+            <div class="terminal reveal">
+              <div class="terminal-bar">
+                <span class="terminal-dot"></span>
+                <span class="terminal-dot"></span>
+                <span class="terminal-dot"></span>
+                <span class="terminal-title">
+                  <svg class="lucide lucide-terminal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/></svg>
+                  mk-terminal
+                </span>
+              </div>
+              <div class="terminal-body">
+                <span class="terminal-line"><span class="terminal-prompt">$ </span><span class="terminal-command">whoami</span></span>
+                <span class="terminal-line terminal-result">Mohamed Ahmed Khedr</span><br/>
+                <span class="terminal-line"><span class="terminal-prompt">$ </span><span class="terminal-command">role</span></span>
+                <span class="terminal-line terminal-result" data-en="Computer Engineer & Full-Stack Developer" data-ar="مهندس كمبيوتر ومطور Full-Stack">Computer Engineer &amp; Full-Stack Developer</span><br/>
+                <span class="terminal-line"><span class="terminal-prompt">$ </span><span class="terminal-command">focus</span></span>
+                <span class="terminal-line terminal-result" data-en="Frontend / Full-Stack / Web Development" data-ar="Frontend / Full-Stack / تطوير الويب">Frontend / Full-Stack / Web Development</span><br/>
+                <span class="terminal-line"><span class="terminal-prompt">$ </span><span class="terminal-command">status</span></span>
+                <span class="terminal-line terminal-result" data-en="Available for opportunities" data-ar="متاح للفرص">Available for opportunities</span><br/>
+                <span class="terminal-line"><span class="terminal-prompt">$ </span><span class="terminal-cursor"></span></span>
+              </div>
+            </div>
+            <div class="terminal-side reveal">
+              <div>
+                <div class="terminal-side-label" data-en="The approach" data-ar="الأسلوب">The approach</div>
+                <h3 class="terminal-side-title" data-en="Simple ideas. Solid execution." data-ar="فكرة بسيطة. تنفيذ قوي.">Simple ideas. Solid execution.</h3>
+              </div>
+              <p class="terminal-side-bottom"
+                data-en="I prefer useful motion over decoration, clear structure over unnecessary complexity, and interfaces that feel good on every screen."
+                data-ar="بفضّل الحركة المفيدة بدل الزخرفة، والهيكل الواضح بدل التعقيد، وواجهات تكون مريحة على كل شاشة.">
+                I prefer useful motion over decoration, clear structure over unnecessary complexity, and interfaces that feel good on every screen.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ===================================================
+           CONTACT
+      =================================================== -->
+      <section class="section contact" id="contact">
+        <div class="container">
+          <div class="contact-box reveal">
+            <div class="contact-inner">
+
+              <!-- Left: heading + social links -->
+              <div>
+                <div class="contact-index" data-en="08 — CONTACT" data-ar="08 — تواصل">08 — CONTACT</div>
+                <h2 class="contact-title" data-en="Have something worth building?" data-ar="عندك حاجة تستاهل تتبني؟">Have something worth building?</h2>
+                <p class="contact-description"
+                  data-en="Whether you have a project, an idea or simply want to talk about the web — I'm always open to a good conversation."
+                  data-ar="سواء عندك مشروع، فكرة أو حتى عايز نتكلم عن الويب — أنا دايمًا مرحب بمحادثة كويسة.">
+                  Whether you have a project, an idea or simply want to talk about the web — I'm always open to a good conversation.
+                </p>
+                <div class="contact-socials">
+                  <a href="mailto:ma0912732@gmail.com" class="contact-link">
+                    <span style="display:inline-flex;align-items:center;gap:10px">
+                      <svg class="lucide lucide-mail" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--blue-soft)" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                      ma0912732@gmail.com
+                    </span>
+                    <span class="contact-link-label" data-en="Email" data-ar="إيميل">Email</span>
+                  </a>
+                  <a href="https://www.linkedin.com/in/moadkhedr/" target="_blank" rel="noopener noreferrer" class="contact-link">
+                    <span style="display:inline-flex;align-items:center;gap:10px">
+                      <svg class="lucide lucide-linkedin" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--blue-soft)" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+                      LinkedIn
+                    </span>
+                    <span class="contact-link-label" data-en="Connect" data-ar="تواصل">Connect</span>
+                  </a>
+                  <a href="https://github.com/mokhedr11" target="_blank" rel="noopener noreferrer" class="contact-link">
+                    <span style="display:inline-flex;align-items:center;gap:10px">
+                      <svg class="lucide lucide-github" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--blue-soft)" aria-hidden="true"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+                      GitHub
+                    </span>
+                    <span class="contact-link-label" data-en="Code" data-ar="الكود">Code</span>
+                  </a>
+                </div>
+              </div>
+
+              <!-- Right: Contact Form -->
+              <div class="contact-form-wrap">
+                <span class="contact-form-label" data-en="Send a message" data-ar="أرسل رسالة">Send a message</span>
+                <form class="contact-form" id="contactForm" novalidate>
+                  <div class="form-group">
+                    <label class="form-label" for="formName" data-en="Full Name" data-ar="الاسم الكامل">Full Name</label>
+                    <input
+                      class="form-input"
+                      id="formName"
+                      type="text"
+                      name="name"
+                      autocomplete="name"
+                      data-placeholder-en="Enter your name"
+                      data-placeholder-ar="أدخل اسمك"
+                      placeholder="Enter your name"
+                      required
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="formEmail" data-en="Email Address" data-ar="البريد الإلكتروني">Email Address</label>
+                    <input
+                      class="form-input"
+                      id="formEmail"
+                      type="email"
+                      name="email"
+                      autocomplete="email"
+                      data-placeholder-en="Enter your email"
+                      data-placeholder-ar="أدخل بريدك الإلكتروني"
+                      placeholder="Enter your email"
+                      required
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="formMessage" data-en="Message" data-ar="الرسالة">Message</label>
+                    <textarea
+                      class="form-textarea"
+                      id="formMessage"
+                      name="message"
+                      data-placeholder-en="Write your message..."
+                      data-placeholder-ar="اكتب رسالتك..."
+                      placeholder="Write your message..."
+                      required
+                    ></textarea>
+                  </div>
+                  <button type="submit" class="form-submit">
+                    <span data-en="Send Message" data-ar="إرسال الرسالة">Send Message</span>
+                    <svg class="lucide lucide-send" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+                  </button>
+                  <p class="form-note" data-en="I typically respond within 24 hours." data-ar="عادةً أرد خلال 24 ساعة.">I typically respond within 24 hours.</p>
+                </form>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+
+    <!-- =====================================================
+         FOOTER
+    ===================================================== -->
+    <footer>
+      <div class="container">
+        <div class="footer-inner">
+          <div class="footer-copy" id="footerCopy">© 2025 Mohamed Ahmed Khedr</div>
+          <div class="footer-links">
+            <a href="https://github.com/mokhedr11" target="_blank" rel="noopener noreferrer" class="social-link magnetic" aria-label="GitHub">
+              <svg class="lucide lucide-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+            </a>
+            <a href="https://www.linkedin.com/in/moadkhedr/" target="_blank" rel="noopener noreferrer" class="social-link magnetic" aria-label="LinkedIn">
+              <svg class="lucide lucide-linkedin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+            <a href="mailto:ma0912732@gmail.com" class="social-link magnetic" aria-label="Email">
+              <svg class="lucide lucide-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+  </div><!-- /page -->
+
+  <!-- Cursor -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- =====================================================
+       JAVASCRIPT
+  ===================================================== -->
+  <script>
+    'use strict';
+
+    /* --------------------------------------------------------
+       LUCIDE ICONS SETUP
+    -------------------------------------------------------- */
+    if (window.lucide && typeof lucide.createIcons === 'function') {
+      lucide.createIcons();
+    }
+
+    /* --------------------------------------------------------
+       YEAR
+    -------------------------------------------------------- */
+    const currentYear = new Date().getFullYear();
+    document.getElementById('aboutYear').textContent = currentYear;
+    document.getElementById('footerCopy').textContent = '\u00A9 ' + currentYear + ' Mohamed Ahmed Khedr';
+
+    /* --------------------------------------------------------
+       PRELOADER
+    -------------------------------------------------------- */
+    const preloader  = document.getElementById('preloader');
+    const siteHeader = document.getElementById('siteHeader');
+
+    function hidePreloader() {
+      if (preloader.classList.contains('hide')) return;
+      preloader.classList.add('hide');
+      setTimeout(() => {
+        siteHeader.classList.add('visible');
+        document.querySelectorAll('.hero-stagger').forEach((el) => el.classList.add('animate'));
+      }, 100);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => setTimeout(hidePreloader, 340));
+    } else {
+      setTimeout(hidePreloader, 280);
+    }
+    // Safety cap
+    setTimeout(hidePreloader, 850);
+
+    /* --------------------------------------------------------
+       THEME (Dark / Light)
+    -------------------------------------------------------- */
+    const themeToggle    = document.getElementById('themeToggle');
+    const themeColorMeta = document.getElementById('themeColorMeta');
+
+    function applyTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('mk-theme', theme);
+      const sun = document.getElementById('iconSun');
+      const moon = document.getElementById('iconMoon');
+      if (theme === 'dark') {
+        if (sun) sun.style.display = '';
+        if (moon) moon.style.display = 'none';
+        themeToggle.setAttribute('aria-label', 'Switch to light mode');
+        if (themeColorMeta) themeColorMeta.setAttribute('content', '#111111');
+      } else {
+        if (sun) sun.style.display = 'none';
+        if (moon) moon.style.display = '';
+        themeToggle.setAttribute('aria-label', 'Switch to dark mode');
+        if (themeColorMeta) themeColorMeta.setAttribute('content', '#f5f4ef');
+      }
+    }
+
+    // Init from existing data-theme
+    applyTheme(document.documentElement.getAttribute('data-theme') || 'light');
+
+    themeToggle.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme');
+      applyTheme(current === 'dark' ? 'light' : 'dark');
+    });
+
+    /* --------------------------------------------------------
+       LANGUAGE
+    -------------------------------------------------------- */
+    const languageSwitch = document.getElementById('languageSwitch');
+    const languageIcon   = document.getElementById('languageIcon');
+    let currentLanguage  = localStorage.getItem('mk-language') || 'en';
+
+    function updateLanguage(lang) {
+      currentLanguage = lang;
+      const isAr = lang === 'ar';
+      document.documentElement.lang = isAr ? 'ar' : 'en';
+      document.documentElement.dir  = isAr ? 'rtl' : 'ltr';
+
+      document.querySelectorAll('[data-en][data-ar]').forEach((el) => {
+        if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') return;
+        el.textContent = isAr ? el.dataset.ar : el.dataset.en;
+      });
+
+      // Inputs & Textareas with placeholder attributes
+      document.querySelectorAll('[data-placeholder-en]').forEach((el) => {
+        el.placeholder = isAr ? el.dataset.placeholderAr : el.dataset.placeholderEn;
+      });
+
+      languageIcon.textContent = isAr ? 'EN' : 'ع';
+      languageSwitch.setAttribute('aria-label', isAr ? 'Switch to English' : 'التبديل إلى العربية');
+
+      document.title = isAr
+        ? 'محمد أحمد خضر — مهندس كمبيوتر ومطور Full-Stack'
+        : 'Mohamed Ahmed Khedr — Computer Engineer & Full-Stack Developer';
+
+      // Update footer year copy
+      document.getElementById('footerCopy').textContent =
+        '\u00A9 ' + currentYear + ' ' + (isAr ? 'محمد أحمد خضر' : 'Mohamed Ahmed Khedr');
+
+      localStorage.setItem('mk-language', lang);
+    }
+
+    languageSwitch.addEventListener('click', () => {
+      updateLanguage(currentLanguage === 'en' ? 'ar' : 'en');
+    });
+
+    updateLanguage(currentLanguage);
+
+    /* --------------------------------------------------------
+       MOBILE MENU
+    -------------------------------------------------------- */
+    const mobileMenuButton = document.getElementById('mobileMenuButton');
+    const mobileNav        = document.getElementById('mobileNav');
+    const menuLine1        = document.getElementById('menuLine1');
+    const menuLine2        = document.getElementById('menuLine2');
+    let mobileMenuOpen     = false;
+
+    function openMobileMenu() {
+      mobileMenuOpen = true;
+      mobileNav.classList.add('open');
+      mobileNav.setAttribute('aria-hidden', 'false');
+      mobileMenuButton.setAttribute('aria-expanded', 'true');
+      document.body.classList.add('menu-open');
+      menuLine1.style.transform = 'translateY(3.5px) rotate(45deg)';
+      menuLine2.style.transform = 'translateY(-3.5px) rotate(-45deg)';
+    }
+
+    function closeMobileMenu() {
+      mobileMenuOpen = false;
+      mobileNav.classList.remove('open');
+      mobileNav.setAttribute('aria-hidden', 'true');
+      mobileMenuButton.setAttribute('aria-expanded', 'false');
+      document.body.classList.remove('menu-open');
+      menuLine1.style.transform = '';
+      menuLine2.style.transform = '';
+    }
+
+    mobileMenuButton.addEventListener('click', () => {
+      mobileMenuOpen ? closeMobileMenu() : openMobileMenu();
+    });
+
+    mobileNav.querySelectorAll('.mobile-nav-link').forEach((link) => {
+      link.addEventListener('click', closeMobileMenu);
+    });
+
+    /* --------------------------------------------------------
+       KEYBOARD SHORTCUTS
+    -------------------------------------------------------- */
+    document.addEventListener('keydown', (e) => {
+      const typing = e.target &&
+        (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT');
+      if (!typing && (e.key === 'l' || e.key === 'L')) {
+        updateLanguage(currentLanguage === 'en' ? 'ar' : 'en');
+      }
+      if (e.key === 'Escape') closeMobileMenu();
+    });
+
+    /* --------------------------------------------------------
+       SCROLL PROGRESS
+    -------------------------------------------------------- */
+    const scrollProgress = document.getElementById('scrollProgress');
+    function updateScrollProgress() {
+      const docH = document.documentElement.scrollHeight - window.innerHeight;
+      scrollProgress.style.width = docH > 0 ? (window.scrollY / docH * 100) + '%' : '0%';
+    }
+    window.addEventListener('scroll', updateScrollProgress, { passive: true });
+    updateScrollProgress();
+
+    /* --------------------------------------------------------
+       REVEAL ON SCROLL
+    -------------------------------------------------------- */
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+
+    document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
+
+    /* --------------------------------------------------------
+       ACTIVE NAV TRACKING
+    -------------------------------------------------------- */
+    const sections = document.querySelectorAll('main section[id]');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          navLinks.forEach((link) => {
+            link.classList.toggle('active', link.dataset.section === entry.target.id);
+          });
+        }
+      });
+    }, { rootMargin: '-38% 0px -52% 0px' });
+
+    sections.forEach((s) => sectionObserver.observe(s));
+
+    /* --------------------------------------------------------
+       CUSTOM CURSOR
+    -------------------------------------------------------- */
+    const cursorDot       = document.getElementById('cursorDot');
+    const cursorRing      = document.getElementById('cursorRing');
+    const isFinePointer   = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (isFinePointer && !isReducedMotion) {
+      let mX = window.innerWidth / 2, mY = window.innerHeight / 2;
+      let rX = mX, rY = mY;
+      let started = false;
+
+      window.addEventListener('mousemove', (e) => {
+        mX = e.clientX; mY = e.clientY;
+        if (!started) {
+          started = true;
+          cursorDot.style.opacity  = '1';
+          cursorRing.style.opacity = '1';
+        }
+        cursorDot.style.left = mX + 'px';
+        cursorDot.style.top  = mY + 'px';
+      });
+
+      (function animateCursor() {
+        rX += (mX - rX) * 0.13;
+        rY += (mY - rY) * 0.13;
+        cursorRing.style.left = rX + 'px';
+        cursorRing.style.top  = rY + 'px';
+        requestAnimationFrame(animateCursor);
+      })();
+
+      document.querySelectorAll('a, button, input, textarea').forEach((el) => {
+        el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+        el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+      });
+    }
+
+    /* --------------------------------------------------------
+       MAGNETIC SOCIAL LINKS
+    -------------------------------------------------------- */
+    if (isFinePointer && !isReducedMotion) {
+      document.querySelectorAll('.social-link.magnetic').forEach((el) => {
+        el.addEventListener('mousemove', (e) => {
+          const r = el.getBoundingClientRect();
+          const x = e.clientX - (r.left + r.width / 2);
+          const y = e.clientY - (r.top  + r.height / 2);
+          el.style.transform = 'translate(' + (x * 0.14) + 'px,' + (y * 0.14) + 'px)';
+        });
+        el.addEventListener('mouseleave', () => { el.style.transform = ''; });
+      });
+    }
+
+    /* --------------------------------------------------------
+       HERO PARALLAX
+    -------------------------------------------------------- */
+    if (isFinePointer && !isReducedMotion) {
+      const heroTitle   = document.querySelector('.hero-title');
+      const heroDesc    = document.querySelector('.hero-description');
+      const heroEyebrow = document.querySelector('.eyebrow');
+      let tX = 0, tY = 0, cX = 0, cY = 0;
+
+      window.addEventListener('mousemove', (e) => {
+        tX = (e.clientX / window.innerWidth)  - 0.5;
+        tY = (e.clientY / window.innerHeight) - 0.5;
+      });
+
+      (function animateParallax() {
+        cX += (tX - cX) * 0.05;
+        cY += (tY - cY) * 0.05;
+        if (heroTitle)   heroTitle.style.transform   = 'translate3d(' + (cX*6) + 'px,' + (cY*3.5) + 'px,0)';
+        if (heroDesc)    heroDesc.style.transform    = 'translate3d(' + (cX*3) + 'px,' + (cY*2) + 'px,0)';
+        if (heroEyebrow) heroEyebrow.style.transform = 'translate3d(' + (cX*1.5) + 'px,' + (cY*1) + 'px,0)';
+        requestAnimationFrame(animateParallax);
+      })();
+    }
+
+    /* --------------------------------------------------------
+       CONTACT FORM (UI & mailto fallback)
+    -------------------------------------------------------- */
+    const contactForm = document.getElementById('contactForm');
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name    = document.getElementById('formName').value.trim();
+      const email   = document.getElementById('formEmail').value.trim();
+      const message = document.getElementById('formMessage').value.trim();
+      if (!name || !email || !message) return;
+
+      const subject = encodeURIComponent('Portfolio inquiry from ' + name);
+      const body    = encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\n\nMessage:\n' + message);
+      window.location.href = 'mailto:ma0912732@gmail.com?subject=' + subject + '&body=' + body;
+    });
+
+    /* --------------------------------------------------------
+       LUCIDE ICONS PASS (End of body script)
+    -------------------------------------------------------- */
+    if (window.lucide && typeof lucide.createIcons === 'function') {
+      lucide.createIcons();
+    }
+  </script>
+</body>
+</html>
