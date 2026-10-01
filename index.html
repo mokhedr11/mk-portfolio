@@ -3147,17 +3147,54 @@
        CONTACT FORM (UI & mailto fallback)
     -------------------------------------------------------- */
     const contactForm = document.getElementById('contactForm');
-    contactForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const name    = document.getElementById('formName').value.trim();
-      const email   = document.getElementById('formEmail').value.trim();
-      const message = document.getElementById('formMessage').value.trim();
-      if (!name || !email || !message) return;
 
-      const subject = encodeURIComponent('Portfolio inquiry from ' + name);
-      const body    = encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\n\nMessage:\n' + message);
-      window.location.href = 'mailto:ma0912732@gmail.com?subject=' + subject + '&body=' + body;
+contactForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const name = document.getElementById('formName').value.trim();
+  const email = document.getElementById('formEmail').value.trim();
+  const message = document.getElementById('formMessage').value.trim();
+
+  if (!name || !email || !message) {
+    return;
+  }
+
+  const submitButton = contactForm.querySelector('.form-submit');
+  const originalButtonHTML = submitButton.innerHTML;
+
+  submitButton.disabled = true;
+  submitButton.innerHTML = 'Sending...';
+
+  try {
+    const response = await fetch('/api/contact', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name,
+        email,
+        message
+      })
     });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || 'Failed to send message.');
+    }
+
+    alert('Message sent successfully!');
+    contactForm.reset();
+
+  } catch (error) {
+    console.error('Contact form error:', error);
+    alert('Something went wrong. Please try again.');
+  } finally {
+    submitButton.disabled = false;
+    submitButton.innerHTML = originalButtonHTML;
+  }
+});
 
     /* --------------------------------------------------------
        LUCIDE ICONS PASS (End of body script)
