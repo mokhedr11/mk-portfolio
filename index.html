@@ -1920,6 +1920,47 @@
       }
       .hero-stagger { opacity: 1; transform: none; }
     }
+
+
+    .form-status {
+  width: 100%;
+  margin-top: 14px;
+  min-height: 20px;
+  font-size: 14px;
+  line-height: 1.5;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
+.form-status.success {
+  color: #315fd8;
+}
+
+.form-status.error {
+  color: #b42318;
+}
+
+/* Arabic */
+[dir="rtl"] .form-status {
+  text-align: right;
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  .form-status {
+    margin-top: 12px;
+    font-size: 14px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .form-status {
+    margin-top: 10px;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+}
   </style>
 </head>
 
@@ -2818,6 +2859,7 @@
                   </button>
                   <p class="form-note" data-en="I typically respond within 24 hours." data-ar="عادةً أرد خلال 24 ساعة.">I typically respond within 24 hours.</p>
                 </form>
+                <p id="formStatus" class="form-status" role="status" aria-live="polite"></p>
               </div>
 
             </div>
@@ -3146,7 +3188,8 @@
     /* --------------------------------------------------------
        CONTACT FORM (UI & mailto fallback)
     -------------------------------------------------------- */
-    const contactForm = document.getElementById('contactForm');
+  const contactForm = document.getElementById('contactForm');
+const formStatus = document.getElementById('formStatus');
 
 contactForm.addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -3156,6 +3199,8 @@ contactForm.addEventListener('submit', async (e) => {
   const message = document.getElementById('formMessage').value.trim();
 
   if (!name || !email || !message) {
+    formStatus.textContent = 'Please fill in all fields.';
+    formStatus.className = 'form-status error';
     return;
   }
 
@@ -3164,6 +3209,9 @@ contactForm.addEventListener('submit', async (e) => {
 
   submitButton.disabled = true;
   submitButton.innerHTML = 'Sending...';
+
+  formStatus.textContent = '';
+  formStatus.className = 'form-status';
 
   try {
     const response = await fetch('/api/contact', {
@@ -3184,12 +3232,17 @@ contactForm.addEventListener('submit', async (e) => {
       throw new Error(data.message || 'Failed to send message.');
     }
 
-    alert('Message sent successfully!');
     contactForm.reset();
+
+    formStatus.textContent = 'Message sent successfully.';
+    formStatus.className = 'form-status success';
 
   } catch (error) {
     console.error('Contact form error:', error);
-    alert('Something went wrong. Please try again.');
+
+    formStatus.textContent = 'Something went wrong. Please try again.';
+    formStatus.className = 'form-status error';
+
   } finally {
     submitButton.disabled = false;
     submitButton.innerHTML = originalButtonHTML;
